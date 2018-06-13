@@ -48,15 +48,18 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
 
   Widget _buildDocumentos() {
     return new Container(
-      padding: const EdgeInsets.all(2.0),
+      padding: const EdgeInsets.all(4.0),
       child: new ListView(
         shrinkWrap: true,
         children: <Widget>[
           new Container(
             child: new Row(
               children: <Widget>[
-                new Flexible(child: new Text("RG")),
-                new Flexible(child: new Icon(Icons.camera_alt))
+                new Flexible(
+                    child: new ListTile(
+                  title: new Text("RG"),
+                  trailing: new Icon(Icons.camera_alt),
+                )),
               ],
             ),
           ),

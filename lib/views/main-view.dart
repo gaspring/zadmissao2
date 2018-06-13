@@ -51,7 +51,10 @@ class _MainViewState extends State<MainView> {
               ),
             ];
           },
-          body: _body),
+          body: new ListView(
+            shrinkWrap: true,
+            children: <Widget>[_body],
+          )),
     );
   }
 

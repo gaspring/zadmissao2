@@ -19,7 +19,7 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
   Widget build(BuildContext context) {
     return new Container(
       padding: const EdgeInsets.all(8.0),
-      child: new ListView(
+      child: new Column(
         children: <Widget>[_buildCPF(), _buildVaga(), _buildDocumentos()],
       ),
     );
@@ -54,42 +54,66 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
         children: <Widget>[
           new Container(
             child: new Row(
-              children: <Widget>[new Text("RG"), new Icon(Icons.camera_alt)],
+              children: <Widget>[
+                new Flexible(child: new Text("RG")),
+                new Flexible(child: new Icon(Icons.camera_alt))
+              ],
             ),
           ),
           new Container(
             child: new Row(
-              children: <Widget>[new Text("CPF"), new Icon(Icons.camera_alt)],
+              children: <Widget>[
+                new Flexible(child: new Text("CPF")),
+                new Flexible(child: new Icon(Icons.camera_alt))
+              ],
             ),
           ),
           new Container(
             child: new Row(
-              children: <Widget>[new Text("Título de eleitor"), new Icon(Icons.camera_alt)],
+              children: <Widget>[
+                new Flexible(child: new Text("Título de eleitor")),
+                new Flexible(child: new Icon(Icons.camera_alt))
+              ],
             ),
           ),
           new Container(
             child: new Row(
-              children: <Widget>[new Text("CTPS"), new Icon(Icons.camera_alt)],
+              children: <Widget>[
+                new Flexible(child: new Text("CTPS")),
+                new Flexible(child: new Icon(Icons.camera_alt))
+              ],
             ),
           ),
           new Container(
             child: new Row(
-              children: <Widget>[new Text("PIS/PASEP"), new Icon(Icons.camera_alt)],
+              children: <Widget>[
+                new Flexible(child: new Text("PIS/PASEP")),
+                new Flexible(child: new Icon(Icons.camera_alt))
+              ],
             ),
           ),
           new Container(
             child: new Row(
-              children: <Widget>[new Text("Reservista"), new Icon(Icons.camera_alt)],
+              children: <Widget>[
+                new Flexible(child: new Text("Reservista")),
+                new Flexible(child: new Icon(Icons.camera_alt))
+              ],
             ),
           ),
           new Container(
             child: new Row(
-              children: <Widget>[new Text("CNH"), new Icon(Icons.camera_alt)],
+              children: <Widget>[
+                new Flexible(child: new Text("CNH")),
+                new Flexible(child: new Icon(Icons.camera_alt))
+              ],
             ),
           ),
           new Container(
             child: new Row(
-              children: <Widget>[new Text("RG"), new Icon(Icons.camera_alt)],
+              children: <Widget>[
+                new Flexible(child: new Text("RG")),
+                new Flexible(child: new Icon(Icons.camera_alt))
+              ],
             ),
           ),
         ],

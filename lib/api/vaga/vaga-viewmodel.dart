@@ -1,4 +1,5 @@
 class VagaViewModel {
+  String idVaga;
   String codigoVaga;
   String centroCusto;
   String numeroPosicao;
@@ -9,7 +10,8 @@ class VagaViewModel {
   String cargo;
 
   VagaViewModel(
-      {this.codigoVaga,
+      {this.idVaga,
+      this.codigoVaga,
       this.centroCusto,
       this.numeroPosicao,
       this.escalaPosicao,
@@ -20,6 +22,7 @@ class VagaViewModel {
 
   factory VagaViewModel.fromJson(Map<String, dynamic> json) {
     return new VagaViewModel(
+        idVaga: json['idVaga'],
         codigoVaga: json['codigoVaga'],
         centroCusto: json['centroCusto'],
         numeroPosicao: json['numeroPosicao'],
@@ -27,7 +30,6 @@ class VagaViewModel {
         horaInicioPosicao: json['horaInicioPosicao'],
         horaFimPosicao: json['horaFimPosicao'],
         horaIntervaloPosicao: json['horaIntervaloPosicao'],
-        cargo: json['cargo']
-    );
+        cargo: json['cargo']);
   }
 }

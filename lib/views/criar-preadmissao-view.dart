@@ -20,29 +20,8 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
     return new Container(
       padding: const EdgeInsets.all(8.0),
       child: new Column(
-        children: <Widget>[_buildCPF(), _buildVaga(), _buildDocumentos()],
+        children: <Widget>[_buildDocumentos()],
       ),
-    );
-  }
-
-  Widget _buildCPF() {
-    return new Container(
-      padding: const EdgeInsets.all(4.0),
-      child: new MaskedTextField(
-        maskedTextFieldController: _textEditingControllerCPF,
-        mask: "xxx.xxx.xxx-xx",
-        maxLength: 14,
-        keyboardType: TextInputType.number,
-        inputDecoration: new InputDecoration(
-            hintText: "Digite seu CPF", labelText: "CPF"),
-      ),
-    );
-  }
-
-  Widget _buildVaga() {
-    return new Container(
-      padding: const EdgeInsets.all(2.0),
-      child: new Text("Vaga"),
     );
   }
 

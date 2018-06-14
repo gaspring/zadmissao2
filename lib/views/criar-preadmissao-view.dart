@@ -27,14 +27,14 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
 
   Widget _buildCPF() {
     return new Container(
-      padding: const EdgeInsets.all(2.0),
+      padding: const EdgeInsets.all(4.0),
       child: new MaskedTextField(
         maskedTextFieldController: _textEditingControllerCPF,
         mask: "xxx.xxx.xxx-xx",
         maxLength: 14,
         keyboardType: TextInputType.number,
         inputDecoration: new InputDecoration(
-            hintText: "Write you Document here", labelText: "CPF"),
+            hintText: "Digite seu CPF", labelText: "CPF"),
       ),
     );
   }
@@ -66,56 +66,67 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
           new Container(
             child: new Row(
               children: <Widget>[
-                new Flexible(child: new Text("CPF")),
-                new Flexible(child: new Icon(Icons.camera_alt))
+                new Flexible(
+                  child: new ListTile(
+                    title: new Text("CPF"),
+                    trailing: new Icon(Icons.camera_alt),
+                  ),
+                )
               ],
             ),
           ),
           new Container(
             child: new Row(
               children: <Widget>[
-                new Flexible(child: new Text("Título de eleitor")),
-                new Flexible(child: new Icon(Icons.camera_alt))
+                new Flexible(
+                    child: new ListTile(
+                  title: new Text("Título de eleitor"),
+                  trailing: new Icon(Icons.camera_alt),
+                ))
               ],
             ),
           ),
           new Container(
             child: new Row(
               children: <Widget>[
-                new Flexible(child: new Text("CTPS")),
-                new Flexible(child: new Icon(Icons.camera_alt))
+                new Flexible(
+                    child: new ListTile(
+                  title: new Text("CTPS"),
+                  trailing: new Icon(Icons.camera_alt),
+                ))
               ],
             ),
           ),
           new Container(
             child: new Row(
               children: <Widget>[
-                new Flexible(child: new Text("PIS/PASEP")),
-                new Flexible(child: new Icon(Icons.camera_alt))
+                new Flexible(
+                    child: new ListTile(
+                  title: new Text("PIS/PASEP"),
+                  trailing: new Icon(Icons.camera_alt),
+                ))
               ],
             ),
           ),
           new Container(
             child: new Row(
               children: <Widget>[
-                new Flexible(child: new Text("Reservista")),
-                new Flexible(child: new Icon(Icons.camera_alt))
+                new Flexible(
+                    child: new ListTile(
+                  title: new Text("Reservista"),
+                  trailing: new Icon(Icons.camera_alt),
+                ))
               ],
             ),
           ),
           new Container(
             child: new Row(
               children: <Widget>[
-                new Flexible(child: new Text("CNH")),
-                new Flexible(child: new Icon(Icons.camera_alt))
-              ],
-            ),
-          ),
-          new Container(
-            child: new Row(
-              children: <Widget>[
-                new Flexible(child: new Text("RG")),
-                new Flexible(child: new Icon(Icons.camera_alt))
+                new Flexible(
+                    child: new ListTile(
+                  title: new Text("CNH"),
+                  trailing: new Icon(Icons.camera_alt),
+                ))
               ],
             ),
           ),

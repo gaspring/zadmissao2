@@ -36,10 +36,11 @@ class _CadastroPreliminarState extends State<CadastroPreliminarView> {
 
   @override
   Widget build(BuildContext context) {
-    return new Container(
-      padding: const EdgeInsets.all(8.0),
-      child: new Column(
-        children: <Widget>[_buildCPF(), _buildVaga()],
+    return new Scaffold(
+      body: new Container(
+        child: new Column(
+          children: <Widget>[_buildCPF(), _buildVaga()],
+        ),
       ),
     );
   }
@@ -59,51 +60,49 @@ class _CadastroPreliminarState extends State<CadastroPreliminarView> {
   }
 
   Widget _buildVaga() {
-    return Container(
-      child: new ListView.builder(
-          shrinkWrap: true,
-          itemCount: _vagas.length,
-          itemBuilder: (context, index) {
-            var vaga = _vagas[index];
+    return new ListView.builder(
+        shrinkWrap: true,
+        itemCount: _vagas.length,
+        itemBuilder: (context, index) {
+          var vaga = _vagas[index];
 
-            return new Card(
-              child: new Container(
-                padding: const EdgeInsets.all(4.0),
-                child: new ListTile(
-                  onTap: () => _submit(vaga),
-                  title: new Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      new Container(
-                        padding: const EdgeInsets.all(2.0),
-                        child: new Text(
-                          "${vaga.codigoVaga}",
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                        ),
+          return new Card(
+            child: new Container(
+              padding: const EdgeInsets.all(4.0),
+              child: new ListTile(
+                onTap: () => _submit(vaga),
+                title: new Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    new Container(
+                      padding: const EdgeInsets.all(2.0),
+                      child: new Text(
+                        "${vaga.codigoVaga}",
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      new Container(
-                        padding: const EdgeInsets.all(2.0),
-                        child: new Text("${vaga.centroCusto}"),
-                      ),
-                      new Container(
-                        padding: const EdgeInsets.all(2.0),
-                        child: new Text("${vaga.cargo}  "),
-                      ),
-                      new Container(
-                        padding: const EdgeInsets.all(2.0),
-                        child: new Text("(${vaga.numeroPosicao}) ${vaga
-                            .escalaPosicao}, ${vaga
-                            .horaInicioPosicao} - ${vaga
-                            .horaFimPosicao} (${vaga
-                            .horaIntervaloPosicao})"),
-                      )
-                    ],
-                  ),
+                    ),
+                    new Container(
+                      padding: const EdgeInsets.all(2.0),
+                      child: new Text("${vaga.centroCusto}"),
+                    ),
+                    new Container(
+                      padding: const EdgeInsets.all(2.0),
+                      child: new Text("${vaga.cargo}  "),
+                    ),
+                    new Container(
+                      padding: const EdgeInsets.all(2.0),
+                      child: new Text("(${vaga.numeroPosicao}) ${vaga
+                          .escalaPosicao}, ${vaga
+                          .horaInicioPosicao} - ${vaga
+                          .horaFimPosicao} (${vaga
+                          .horaIntervaloPosicao})"),
+                    )
+                  ],
                 ),
               ),
-            );
-          }),
-    );
+            ),
+          );
+        });
   }
 
   void _listarVagas() async {

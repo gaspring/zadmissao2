@@ -84,7 +84,7 @@ class _CameraViewState extends State<CameraView> {
       return null;
     }
     final Directory extDir = await getApplicationDocumentsDirectory();
-    final String dirPath = '${extDir.path}/Pictures/zadmissao';
+    final String dirPath = '${extDir.path}/Pictures';
     await new Directory(dirPath).create(recursive: true);
     final String filePath = '$dirPath/${timestamp()}.jpg';
 
@@ -97,6 +97,7 @@ class _CameraViewState extends State<CameraView> {
     } on CameraException catch (e) {
       return null;
     }
+
     return filePath;
   }
 }

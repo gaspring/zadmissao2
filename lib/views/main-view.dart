@@ -33,6 +33,9 @@ class _MainViewState extends State<MainView> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+      appBar: new AppBar(
+        title: new Text("Bem vindo Gestor"),
+      ),
       bottomNavigationBar: new BottomNavigationBar(
           onTap: _onTap,
           items: [
@@ -42,20 +45,7 @@ class _MainViewState extends State<MainView> {
                 icon: new Icon(Icons.history), title: new Text("Histórico"))
           ],
           currentIndex: _selectedTab),
-      body: new NestedScrollView(
-          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-            return <Widget>[
-              new SliverAppBar(
-                pinned: true,
-                title: new Text('Bem vindo Gestor'),
-                leading: new Container(),
-              ),
-            ];
-          },
-          body: new ListView(
-            shrinkWrap: true,
-            children: <Widget>[_body],
-          )),
+      body: _body,
     );
   }
 

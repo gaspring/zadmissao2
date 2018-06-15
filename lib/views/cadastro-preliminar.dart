@@ -6,6 +6,7 @@ import 'package:zadmissao/api/vaga/vaga-service.dart';
 import 'package:zadmissao/api/vaga/vaga-viewmodel.dart';
 import 'package:zadmissao/settings/api-settings.dart';
 import 'package:zadmissao/utils/dialog-utils.dart';
+import 'package:zadmissao/views/criar-preadmissao-view.dart';
 
 class CadastroPreliminarView extends StatefulWidget {
   @override
@@ -69,7 +70,7 @@ class _CadastroPreliminarState extends State<CadastroPreliminarView> {
               child: new Container(
                 padding: const EdgeInsets.all(4.0),
                 child: new ListTile(
-                  onTap: () => _submit(vaga.idVaga),
+                  onTap: () => _submit(vaga),
                   title: new Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
@@ -117,18 +118,33 @@ class _CadastroPreliminarState extends State<CadastroPreliminarView> {
     }
   }
 
-  void _submit(String idVaga) async {
+  void _submit(VagaViewModel vaga) async {
     if (!_validarCPF(_textEditingControllerCPF.value.text))
       _dialog.showAlertDialog("Ops...", "CPF digitado é inválido", "Ok", "");
+    else {
+      var preferences = await SharedPreferences.getInstance();
+      var idUsuario = preferences.get(ApiSettings.ID_USER);
 
-    var preferences = await SharedPreferences.getInstance();
-    var idUsuario = preferences.get(ApiSettings.ID_USER );
+      var res = await _vagaService.criarPreAdmissao(PreAdmissaoAppInput(
+          CPF: _textEditingControllerCPF.value.text,
+          idUsuarioCriacao: idUsuario,
+          idVaga: vaga.idVaga));
 
-    await _vagaService.criarPreAdmissao(PreAdmissaoAppInput(
-      CPF: _textEditingControllerCPF.value.text,
-      idUsuarioCriacao: idUsuario,
-      idVaga: idVaga
-    ));
+      vaga.cpf = _textEditingControllerCPF.value.text;
+
+      if (res) {
+        _transit(new CriarPreAdmissaoView(
+          vagaViewModel: vaga,
+        ));
+      }
+    }
+  }
+
+  void _transit(Widget widget) {
+    Navigator.push(
+      context,
+      new MaterialPageRoute(builder: (context) => widget),
+    );
   }
 
   var _weightSsn = [11, 10, 9, 8, 7, 6, 5, 4, 3, 2];

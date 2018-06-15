@@ -39,7 +39,7 @@ class VagaService {
     }
   }
 
-  Future criarPreAdmissao(PreAdmissaoAppInput input) async {
+  Future<bool> criarPreAdmissao(PreAdmissaoAppInput input) async {
     try {
       var url = "$_URL/criar-pre-admissao-app";
 
@@ -54,6 +54,29 @@ class VagaService {
       var response = await http.post(url,
           body: json.encode(input.toMap()), headers: _header);
       var responseJson = json.decode(response.body);
+
+      return response.statusCode == 200;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<List<VagaViewModel>> listarPreAdmissaoHistorico() async {
+    try {
+      var preferences = await SharedPreferences.getInstance();
+      var idUsuario = preferences.get(ApiSettings.ID_USER);
+
+      var url = "$_URL/listar-pre-admissao-app/$idUsuario";
+
+      _header[HttpHeaders.AUTHORIZATION] =
+          "Bearer ${preferences.get(ApiSettings.API_TOKEN)}";
+
+      var response = await http.get(url, headers: _header);
+      var responseJson = json.decode(response.body);
+
+      var l = (responseJson as List).map((x) => new VagaViewModel.fromJson(x));
+
+      return l.toList();
     } catch (e) {
       return null;
     }

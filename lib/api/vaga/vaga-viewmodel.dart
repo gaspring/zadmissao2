@@ -8,6 +8,7 @@ class VagaViewModel {
   String horaFimPosicao;
   String horaIntervaloPosicao;
   String cargo;
+  String cpf;
 
   VagaViewModel(
       {this.idVaga,

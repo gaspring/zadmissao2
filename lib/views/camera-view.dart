@@ -15,10 +15,13 @@ class _CameraViewState extends State<CameraView> {
 
   CameraController _cameraController;
 
+  Widget _body;
+
   @override
   void initState() {
     super.initState();
     _initCamera();
+    _body = new Container();
   }
 
   void _initCamera() async {
@@ -31,7 +34,35 @@ class _CameraViewState extends State<CameraView> {
         return;
       }
 
-      setState(() {});
+      setState(() {
+        _body = new Scaffold(
+          body: new Column(
+            children: <Widget>[
+              new Flexible(child: new CameraPreview(_cameraController)),
+              new Row(
+                children: <Widget>[
+                  new Expanded(
+                    child: new RaisedButton(
+                      padding: const EdgeInsets.all(4.0),
+                      color: Colors.amber,
+                      onPressed: () => Navigator.pop(context),
+                      child: new Text("Cancelar"),
+                    ),
+                  ),
+                  new Expanded(
+                    child: new RaisedButton(
+                      padding: const EdgeInsets.all(4.0),
+                      color: Colors.amber,
+                      onPressed: _takePicture,
+                      child: new Text("Tirar Foto"),
+                    ),
+                  )
+                ],
+              ),
+            ],
+          ),
+        );
+      });
     });
   }
 
@@ -43,19 +74,12 @@ class _CameraViewState extends State<CameraView> {
 
   @override
   Widget build(BuildContext context) {
-    if (!_cameraController.value.isInitialized) {
-      return new Container();
-    }
-
-    return new AspectRatio(
-      aspectRatio: _cameraController.value.aspectRatio,
-      child: new CameraPreview(_cameraController),
-    );
+    return _body;
   }
 
   String timestamp() => new DateTime.now().millisecondsSinceEpoch.toString();
 
-  Future<String> takePicture() async {
+  Future<String> _takePicture() async {
     if (!_cameraController.value.isInitialized) {
       return null;
     }

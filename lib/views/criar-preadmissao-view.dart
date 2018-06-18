@@ -23,13 +23,15 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
     _textEditingControllerCPF = new TextEditingController();
     _documentos = new List<DocumentoViewModel>();
 
-    _documentos.add(new DocumentoViewModel(nome: "RG"));
-    _documentos.add(new DocumentoViewModel(nome: "CPF"));
-    _documentos.add(new DocumentoViewModel(nome: "Título de eleitor"));
-    _documentos.add(new DocumentoViewModel(nome: "CTPS"));
-    _documentos.add(new DocumentoViewModel(nome: "PIS/PASEP"));
-    _documentos.add(new DocumentoViewModel(nome: "Reservista"));
-    _documentos.add(new DocumentoViewModel(nome: "CNH"));
+    _documentos.add(new DocumentoViewModel(nome: "RG", key: "RG"));
+    _documentos.add(new DocumentoViewModel(nome: "CPF", key: "CPF"));
+    _documentos.add(new DocumentoViewModel(
+        nome: "Título de eleitor", key: "TITULODEELEITOR"));
+    _documentos.add(new DocumentoViewModel(nome: "CTPS", key: "CTPS"));
+    _documentos.add(new DocumentoViewModel(nome: "PIS/PASEP", key: "PISPASEP"));
+    _documentos
+        .add(new DocumentoViewModel(nome: "Reservista", key: "RESERVISTA"));
+    _documentos.add(new DocumentoViewModel(nome: "CNH", key: "CNH"));
 
     super.initState();
   }
@@ -83,15 +85,16 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
         itemCount: _documentos.length,
         itemBuilder: (context, index) {
           var documento = _documentos[index];
+          documento.idPreAdmissaoApp = widget.vagaViewModel.idPreAdmissao;
 
           return new ListTile(
-              onTap: _dialogEscolherLadoFoto,
+              onTap: () => _dialogEscolherLadoFoto(documento),
               title: new Text(documento.nome),
               trailing: new Icon(Icons.camera_alt));
         });
   }
 
-  void _dialogEscolherLadoFoto() {
+  void _dialogEscolherLadoFoto(DocumentoViewModel documento) {
     showDialog(
         context: context,
         builder: (BuildContext context) => new AlertDialog(
@@ -102,12 +105,15 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     new ListTile(
-                      onTap: _abrirCamera,
+                      onTap: () => _abrirCamera(documento),
                       title: new Text("Frente"),
                       trailing: new Icon(Icons.add_a_photo),
                     ),
                     new ListTile(
-                      onTap: _abrirCamera,
+                      onTap: (){
+                        documento.key = "VERSO${documento.key}";
+                        _abrirCamera(documento);
+                      },
                       title: new Text("Verso"),
                       trailing: new Icon(Icons.add_a_photo),
                     )
@@ -117,10 +123,11 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
             ));
   }
 
-  void _abrirCamera() {
+  void _abrirCamera(DocumentoViewModel documento) {
     Navigator.push(
       context,
-      new MaterialPageRoute(builder: (context) => new CameraView()),
+      new MaterialPageRoute(
+          builder: (context) => new CameraView(documento: documento)),
     );
   }
 }

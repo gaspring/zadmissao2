@@ -36,11 +36,9 @@ class _CadastroPreliminarState extends State<CadastroPreliminarView> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      body: new Container(
-        child: new Column(
-          children: <Widget>[_buildCPF(), _buildVaga()],
-        ),
+    return new Container(
+      child: new ListView(
+        children: <Widget>[_buildCPF(), _buildVaga()],
       ),
     );
   }
@@ -131,10 +129,14 @@ class _CadastroPreliminarState extends State<CadastroPreliminarView> {
 
       vaga.cpf = _textEditingControllerCPF.value.text;
 
-      if (res) {
+      if (res != null) {
+        vaga.idPreAdmissao = res.idPreAdmissaoApp;
         _transit(new CriarPreAdmissaoView(
           vagaViewModel: vaga,
         ));
+      }
+      else{
+        _dialog.showAlertDialog("Ops...", "Tente novamente", "ok", "");
       }
     }
   }

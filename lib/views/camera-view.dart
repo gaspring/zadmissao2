@@ -4,8 +4,14 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:zadmissao/api/vaga/documento-viewmodel.dart';
+import 'package:zadmissao/views/confirmar-foto-view.dart';
 
 class CameraView extends StatefulWidget {
+  DocumentoViewModel documento;
+
+  CameraView({this.documento});
+
   @override
   State<StatefulWidget> createState() => new _CameraViewState();
 }
@@ -79,7 +85,7 @@ class _CameraViewState extends State<CameraView> {
 
   String timestamp() => new DateTime.now().millisecondsSinceEpoch.toString();
 
-  Future<String> _takePicture() async {
+  Future _takePicture() async {
     if (!_cameraController.value.isInitialized) {
       return null;
     }
@@ -98,6 +104,13 @@ class _CameraViewState extends State<CameraView> {
       return null;
     }
 
-    return filePath;
+    _transit(new ConfirmarFotoView(path: filePath, documento: widget.documento));
+  }
+
+  void _transit(Widget widget) {
+    Navigator.push(
+      context,
+      new MaterialPageRoute(builder: (context) => widget),
+    );
   }
 }

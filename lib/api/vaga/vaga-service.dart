@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:zadmissao/api/vaga/documento-viewmodel.dart';
 import 'package:zadmissao/api/vaga/preadmissao-app-input.dart';
 import 'package:zadmissao/api/vaga/vaga-viewmodel.dart';
 import 'package:zadmissao/settings/api-settings.dart';
@@ -39,7 +40,7 @@ class VagaService {
     }
   }
 
-  Future<bool> criarPreAdmissao(PreAdmissaoAppInput input) async {
+  Future<DocumentoViewModel> criarPreAdmissao(PreAdmissaoAppInput input) async {
     try {
       var url = "$_URL/criar-pre-admissao-app";
 
@@ -55,9 +56,9 @@ class VagaService {
           body: json.encode(input.toMap()), headers: _header);
       var responseJson = json.decode(response.body);
 
-      return response.statusCode == 200;
+      return DocumentoViewModel.fromJson(responseJson);
     } catch (e) {
-      return false;
+      return null;
     }
   }
 

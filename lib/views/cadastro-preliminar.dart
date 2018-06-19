@@ -9,13 +9,16 @@ import 'package:zadmissao/utils/dialog-utils.dart';
 import 'package:zadmissao/views/criar-preadmissao-view.dart';
 
 class CadastroPreliminarView extends StatefulWidget {
+  String nome;
+  String cpf;
+
+  CadastroPreliminarView({this.nome, this.cpf});
+
   @override
   State<StatefulWidget> createState() => new _CadastroPreliminarState();
 }
 
 class _CadastroPreliminarState extends State<CadastroPreliminarView> {
-  TextEditingController _textEditingControllerCPF;
-
   VagaService _vagaService;
 
   List<VagaViewModel> _vagas;
@@ -24,7 +27,6 @@ class _CadastroPreliminarState extends State<CadastroPreliminarView> {
 
   @override
   void initState() {
-    _textEditingControllerCPF = new TextEditingController();
     _vagas = new List<VagaViewModel>();
     _vagaService = new VagaService();
     _dialog = new DialogUtils(context);
@@ -36,23 +38,13 @@ class _CadastroPreliminarState extends State<CadastroPreliminarView> {
 
   @override
   Widget build(BuildContext context) {
-    return new Container(
-      child: new ListView(
-        children: <Widget>[_buildCPF(), _buildVaga()],
+    return new Scaffold(
+      appBar: new AppBar(
+        title: new Text("Cadastro Preliminar"),
       ),
-    );
-  }
-
-  Widget _buildCPF() {
-    return new Container(
-      padding: const EdgeInsets.all(4.0),
-      child: new MaskedTextField(
-        maskedTextFieldController: _textEditingControllerCPF,
-        mask: "xxx.xxx.xxx-xx",
-        maxLength: 14,
-        keyboardType: TextInputType.number,
-        inputDecoration:
-            new InputDecoration(hintText: "Digite seu CPF", labelText: "CPF"),
+      body: new Container(
+        padding: const EdgeInsets.all(8.0),
+        child: _buildVaga(),
       ),
     );
   }
@@ -116,28 +108,24 @@ class _CadastroPreliminarState extends State<CadastroPreliminarView> {
   }
 
   void _submit(VagaViewModel vaga) async {
-    if (!_validarCPF(_textEditingControllerCPF.value.text))
-      _dialog.showAlertDialog("Ops...", "CPF digitado é inválido", "Ok", "");
-    else {
-      var preferences = await SharedPreferences.getInstance();
-      var idUsuario = preferences.get(ApiSettings.ID_USER);
+    var preferences = await SharedPreferences.getInstance();
+    var idUsuario = preferences.get(ApiSettings.ID_USER);
 
-      var res = await _vagaService.criarPreAdmissao(PreAdmissaoAppInput(
-          CPF: _textEditingControllerCPF.value.text,
-          idUsuarioCriacao: idUsuario,
-          idVaga: vaga.idVaga));
+    var res = await _vagaService.criarPreAdmissao(PreAdmissaoAppInput(
+        nome: widget.nome,
+        CPF: widget.cpf,
+        idUsuarioCriacao: idUsuario,
+        idVaga: vaga.idVaga));
 
-      vaga.cpf = _textEditingControllerCPF.value.text;
+    vaga.cpf = widget.cpf;
 
-      if (res != null) {
-        vaga.idPreAdmissao = res.idPreAdmissaoApp;
-        _transit(new CriarPreAdmissaoView(
-          vagaViewModel: vaga,
-        ));
-      }
-      else{
-        _dialog.showAlertDialog("Ops...", "Tente novamente", "ok", "");
-      }
+    if (res != null) {
+      vaga.idPreAdmissao = res.idPreAdmissaoApp;
+      _transit(new CriarPreAdmissaoView(
+        vagaViewModel: vaga,
+      ));
+    } else {
+      _dialog.showAlertDialog("Ops...", "Tente novamente", "ok", "");
     }
   }
 
@@ -146,37 +134,5 @@ class _CadastroPreliminarState extends State<CadastroPreliminarView> {
       context,
       new MaterialPageRoute(builder: (context) => widget),
     );
-  }
-
-  var _weightSsn = [11, 10, 9, 8, 7, 6, 5, 4, 3, 2];
-
-  int _calculate(String str, List<int> weight) {
-    var sum = 0;
-    var i = str.length - 1;
-    var digit;
-
-    while (i >= 0) {
-      digit = int.parse(str.substring(i, i + 1));
-      sum += digit * weight[weight.length - str.length + i];
-      i--;
-    }
-    sum = 11 - sum % 11;
-    return sum > 9 ? 0 : sum;
-  }
-
-  bool _validarCPF(String ssn) {
-    ssn = ssn.replaceAll("-", "").replaceAll(".", "");
-
-    if (ssn.length == 0) return false;
-
-    RegExp regExp = new RegExp(ssn[0] + "{11}");
-    var match = regExp.allMatches(ssn).length > 0;
-
-    if (ssn == null || ssn.length != 11 || match) return false;
-
-    var digit1 = _calculate(ssn.substring(0, 9), _weightSsn);
-    var digit2 =
-        _calculate(ssn.substring(0, 9) + digit1.toString(), _weightSsn);
-    return ssn == ssn.substring(0, 9) + digit1.toString() + digit2.toString();
   }
 }

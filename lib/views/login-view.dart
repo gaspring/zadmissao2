@@ -49,7 +49,7 @@ class _LoginViewState extends State<LoginView> {
       maxLength: 50,
       controller: _textFieldPasswordConstroller,
       decoration:
-      new InputDecoration(hintText: "Digite sua senha", labelText: "Senha"),
+          new InputDecoration(hintText: "Digite sua senha", labelText: "Senha"),
     );
   }
 
@@ -104,7 +104,7 @@ class _LoginViewState extends State<LoginView> {
 
       Navigator.pushReplacementNamed(context, MainView.ROUTE);
     } else {
-      _dialog.showAlertDialog("Ops...",  "Tente novamente",  "ok", "");
+      _dialog.showAlertDialog("Ops...", "Tente novamente", "ok", "");
     }
   }
 }

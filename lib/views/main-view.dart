@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:zadmissao/views/cadastro-preliminar-inicial.dart';
 import 'package:zadmissao/views/cadastro-preliminar.dart';
 import 'package:zadmissao/views/criar-preadmissao-view.dart';
 import 'package:zadmissao/views/lista-preadmissao-view.dart';
@@ -23,7 +24,7 @@ class _MainViewState extends State<MainView> {
 
   @override
   void initState() {
-    _criarPreAdmissao = new CadastroPreliminarView();
+    _criarPreAdmissao = new CadastroPreliminarInicialView();
     _listarPreAdmissao = new ListaPreAdmissaoView();
     _selectedTab = 0;
     _body = _criarPreAdmissao;

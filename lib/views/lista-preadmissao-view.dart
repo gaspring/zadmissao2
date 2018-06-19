@@ -37,7 +37,7 @@ class _ListaPreAdmissaoState extends State<ListaPreAdmissaoView> {
 
             return new Card(
               child: new Container(
-                padding: const EdgeInsets.all(2.0),
+                padding: const EdgeInsets.all(8.0),
                 child: new ListTile(
                   title: new Row(
                     children: <Widget>[
@@ -46,7 +46,11 @@ class _ListaPreAdmissaoState extends State<ListaPreAdmissaoView> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           new Container(
-                            child: new Text("${p.codigoVaga}"),
+                            child: new Text(
+                              "${p.codigoVaga}",
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
+                            ),
                           ),
                           new Container(
                             child: new Text("${p.cargo}"),

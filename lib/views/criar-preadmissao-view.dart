@@ -40,7 +40,6 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: new AppBar(
-          leading: new Container(),
           title: new Text("Criar PreAdmissão"),
         ),
         body: new Container(
@@ -110,7 +109,7 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
                       trailing: new Icon(Icons.add_a_photo),
                     ),
                     new ListTile(
-                      onTap: (){
+                      onTap: () {
                         documento.key = "VERSO${documento.key}";
                         _abrirCamera(documento);
                       },

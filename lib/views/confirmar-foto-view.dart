@@ -61,5 +61,6 @@ class _ConfirmarFotoState extends State<ConfirmarFotoView> {
             documento: widget.documento.key,
             idPreAdmissao: widget.documento.idPreAdmissaoApp),
         _image);
+    widget.documento.key = widget.documento.key.replaceAll("VERSO", "");
   }
 }

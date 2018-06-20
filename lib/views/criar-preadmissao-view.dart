@@ -32,6 +32,27 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
     _documentos
         .add(new DocumentoViewModel(nome: "Reservista", key: "RESERVISTA"));
     _documentos.add(new DocumentoViewModel(nome: "CNH", key: "CNH"));
+    _documentos.add(
+        new DocumentoViewModel(nome: "Conta bancária", key: "CONTABANCARIA"));
+    _documentos.add(new DocumentoViewModel(
+        nome: "Certidão de nascimento ou Casamento",
+        key: "CERTIDAONASCIMENTOCASAMENTO"));
+    _documentos
+        .add(new DocumentoViewModel(nome: "Escolaridade", key: "ESCOLARIDADE"));
+    _documentos.add(
+        new DocumentoViewModel(nome: "Carteirinha de vacina", key: "VACINA"));
+    _documentos.add(new DocumentoViewModel(
+        nome: "Carteirinha de vacina 2", key: "VACINA2"));
+    _documentos.add(new DocumentoViewModel(
+        nome: "Carteirinha de vacina 3", key: "VACINA3"));
+    _documentos.add(new DocumentoViewModel(
+        nome: "Certificado de formação de vigilante",
+        key: "CERTIFICADOFORMACAOVIG"));
+    _documentos.add(new DocumentoViewModel(
+        nome: "Certificado nacional de vigilante", key: "CNVVIG"));
+    _documentos.add(new DocumentoViewModel(
+        nome: "Certificado nacional de vigilante", key: "CNVVIG"));
+    _documentos.add(new DocumentoViewModel(nome: "DRT", key: "DRTVIG"));
 
     super.initState();
   }
@@ -40,39 +61,81 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: new AppBar(
-          title: new Text("Criar PreAdmissão"),
-        ),
-        body: new Container(
-          padding: const EdgeInsets.all(8.0),
-          child: new Column(
-            children: <Widget>[_buildDetalhes(), _buildDocumentos()],
-          ),
-        ));
+            title: new Text("${widget.vagaViewModel.codigoVaga}"),
+            actions: <Widget>[
+              new IconButton(
+                  icon: new Icon(Icons.info), onPressed: _openInfoDialog),
+            ]),
+        body: _buildDocumentos());
   }
 
   Widget _buildDetalhes() {
     return new Container(
       padding: const EdgeInsets.all(4.0),
       child: new Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           new Container(
-            child: new Text("${widget.vagaViewModel.cpf}"),
-          ),
+            padding: const EdgeInsets.all(4.0),
+              child: new Row(
+            children: <Widget>[
+              new Expanded(
+                  child: new Text(
+                "CPF: ",
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              )),
+              new Expanded(child: new Text("${widget.vagaViewModel.cpf}"))
+            ],
+          )),
           new Container(
-            child: new Text("${widget.vagaViewModel.codigoVaga}"),
-          ),
+              padding: const EdgeInsets.all(4.0),
+              child: new Row(
+            children: <Widget>[
+              new Expanded(
+                  child: new Text(
+                "Cód. Vaga: ",
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              )),
+              new Expanded(
+                child: new Text("${widget.vagaViewModel.codigoVaga}"),
+              )
+            ],
+          )),
           new Container(
-            child: new Text("${widget.vagaViewModel.cargo}"),
-          ),
+              padding: const EdgeInsets.all(4.0),
+              child: new Row(
+            children: <Widget>[
+              new Expanded(
+                  child: new Text(
+                "Cargo: ",
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              )),
+              new Expanded(
+                child: new Text("${widget.vagaViewModel.cargo}"),
+              )
+            ],
+          )),
           new Container(
-            padding: const EdgeInsets.all(2.0),
-            child: new Text(
-                "(${widget.vagaViewModel.numeroPosicao}) ${widget.vagaViewModel
-                    .escalaPosicao}, ${widget.vagaViewModel
-                    .horaInicioPosicao} - ${widget.vagaViewModel
-                    .horaFimPosicao} (${widget.vagaViewModel
-                    .horaIntervaloPosicao})"),
-          ),
+              padding: const EdgeInsets.all(4.0),
+              child: new Row(
+                children: <Widget>[
+                  new Expanded(
+                      child: new Text(
+                    "Posição",
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  )),
+                  new Expanded(
+                    child: new Text(
+                        "(${widget.vagaViewModel.numeroPosicao}) ${widget
+                            .vagaViewModel
+                            .escalaPosicao}, ${widget.vagaViewModel
+                            .horaInicioPosicao} - ${widget.vagaViewModel
+                            .horaFimPosicao} (${widget.vagaViewModel
+                            .horaIntervaloPosicao})"),
+                  )
+                ],
+              )),
         ],
       ),
     );
@@ -128,5 +191,14 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
       new MaterialPageRoute(
           builder: (context) => new CameraView(documento: documento)),
     );
+  }
+
+  void _openInfoDialog() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) => new AlertDialog(
+              title: new Text("Informação"),
+              content: _buildDetalhes(),
+            ));
   }
 }

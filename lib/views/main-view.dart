@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:zadmissao/views/cadastro-preliminar-inicial.dart';
 import 'package:zadmissao/views/cadastro-preliminar.dart';
 import 'package:zadmissao/views/criar-preadmissao-view.dart';
+import 'package:zadmissao/views/em-analise-view.dart';
 import 'package:zadmissao/views/lista-preadmissao-view.dart';
 
 class MainView extends StatefulWidget {
@@ -13,11 +14,13 @@ class MainView extends StatefulWidget {
 }
 
 class _MainViewState extends State<MainView> {
-  static const int _CRIAR_PREADMISSAO = 0;
-  static const int _HISTORICO_PREADMISSAO = 1;
+  static const int _EM_ANALISE = 0;
+  static const int _CRIAR_PREADMISSAO = 1;
+  static const int _HISTORICO_PREADMISSAO = 2;
 
   Widget _criarPreAdmissao;
   Widget _listarPreAdmissao;
+  Widget _emAnalise;
 
   Widget _body;
   int _selectedTab;
@@ -26,8 +29,9 @@ class _MainViewState extends State<MainView> {
   void initState() {
     _criarPreAdmissao = new CadastroPreliminarInicialView();
     _listarPreAdmissao = new ListaPreAdmissaoView();
+    _emAnalise = new EmAnaliseView();
     _selectedTab = 0;
-    _body = _criarPreAdmissao;
+    _body = _emAnalise;
     super.initState();
   }
 
@@ -41,9 +45,12 @@ class _MainViewState extends State<MainView> {
           onTap: _onTap,
           items: [
             new BottomNavigationBarItem(
+                icon: new Icon(Icons.query_builder),
+                title: new Text("Em análise")),
+            new BottomNavigationBarItem(
                 icon: new Icon(Icons.add), title: new Text("Criar")),
             new BottomNavigationBarItem(
-                icon: new Icon(Icons.history), title: new Text("Histórico"))
+                icon: new Icon(Icons.history), title: new Text("Histórico")),
           ],
           currentIndex: _selectedTab),
       body: _body,
@@ -59,6 +66,9 @@ class _MainViewState extends State<MainView> {
         break;
       case _HISTORICO_PREADMISSAO:
         body = _listarPreAdmissao;
+        break;
+      case _EM_ANALISE:
+        body = _emAnalise;
         break;
     }
 

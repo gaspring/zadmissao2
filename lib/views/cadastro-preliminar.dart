@@ -21,12 +21,14 @@ class CadastroPreliminarView extends StatefulWidget {
 class _CadastroPreliminarState extends State<CadastroPreliminarView> {
   VagaService _vagaService;
 
+  List<VagaViewModel> _vagasFiltro;
   List<VagaViewModel> _vagas;
 
   DialogUtils _dialog;
 
   @override
   void initState() {
+    _vagasFiltro = new List<VagaViewModel>();
     _vagas = new List<VagaViewModel>();
     _vagaService = new VagaService();
     _dialog = new DialogUtils(context);
@@ -41,6 +43,10 @@ class _CadastroPreliminarState extends State<CadastroPreliminarView> {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text("Cadastro Preliminar"),
+        actions: <Widget>[
+          new IconButton(
+              icon: new Icon(Icons.search), onPressed: _openBuscarVagaDialog)
+        ],
       ),
       body: new Container(
         padding: const EdgeInsets.all(8.0),
@@ -52,9 +58,9 @@ class _CadastroPreliminarState extends State<CadastroPreliminarView> {
   Widget _buildVaga() {
     return new ListView.builder(
         shrinkWrap: true,
-        itemCount: _vagas.length,
+        itemCount: _vagasFiltro.length,
         itemBuilder: (context, index) {
-          var vaga = _vagas[index];
+          var vaga = _vagasFiltro[index];
 
           return new Card(
             child: new Container(
@@ -99,8 +105,9 @@ class _CadastroPreliminarState extends State<CadastroPreliminarView> {
     var vagas = await _vagaService.listarVagas();
 
     if (vagas != null) {
+      _vagas.addAll(vagas);
       setState(() {
-        _vagas = vagas;
+        _vagasFiltro = vagas;
       });
     } else {
       _dialog.showAlertDialog("Ops...", "Tente novamente", "Ok", "");
@@ -134,5 +141,66 @@ class _CadastroPreliminarState extends State<CadastroPreliminarView> {
       context,
       new MaterialPageRoute(builder: (context) => widget),
     );
+  }
+
+  void _openBuscarVagaDialog() {
+    TextEditingController textEditingControllerVaga =
+        new TextEditingController();
+
+    showDialog(
+        context: context,
+        builder: (BuildContext context) => new AlertDialog(
+              title: new Text("Buscar Vaga"),
+              content: new Container(
+                padding: const EdgeInsets.all(4.0),
+                child: new Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    new TextField(
+                      keyboardType: TextInputType.text,
+                      maxLength: 20,
+                      controller: textEditingControllerVaga,
+                      decoration: const InputDecoration(
+                          hintText: "Digite o código da vaga"),
+                    ),
+                    new Row(
+                      children: <Widget>[
+                        new Expanded(
+                            child: new RaisedButton(
+                                child: new Text("Limpar"),
+                                color: Colors.amber,
+                                onPressed: () {
+                                  setState(() {
+                                    _vagasFiltro = _vagas;
+                                  });
+                                  Navigator.pop(context);
+                                })),
+                        new Expanded(
+                            child: new RaisedButton(
+                                child: new Text("Pesquisar"),
+                                color: Colors.amber,
+                                onPressed: () {
+                                  var codigoVaga =
+                                      textEditingControllerVaga.text;
+
+                                  var filtro = _vagas
+                                      .where((x) => x.codigoVaga
+                                          .toUpperCase()
+                                          .contains(codigoVaga.toUpperCase()))
+                                      .toList();
+
+                                  setState(() {
+                                    _vagasFiltro = filtro;
+                                  });
+
+                                  Navigator.pop(context);
+                                }))
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ));
   }
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:masked_text/masked_text.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zadmissao/api/vaga/preadmissao-app-input.dart';
 import 'package:zadmissao/api/vaga/vaga-service.dart';
@@ -102,7 +101,9 @@ class _CadastroPreliminarState extends State<CadastroPreliminarView> {
   }
 
   void _listarVagas() async {
+    _dialog.showProgressDialog();
     var vagas = await _vagaService.listarVagas();
+    _dialog.dismiss();
 
     if (vagas != null) {
       _vagas.addAll(vagas);

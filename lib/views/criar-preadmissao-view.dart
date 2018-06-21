@@ -37,7 +37,7 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
     _documentos.add(new DocumentoViewModel(
         nome: "Conta bancária", key: "CONTABANCARIA", temVerso: true));
     _documentos.add(new DocumentoViewModel(
-        nome: "Certidão de nascimento ou Casamento",
+        nome: "Certidão de nascimento ou casamento",
         key: "CERTIDAONASCIMENTOCASAMENTO"));
     _documentos.add(new DocumentoViewModel(
         nome: "Escolaridade", key: "ESCOLARIDADE", temVerso: true));

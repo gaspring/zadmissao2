@@ -101,6 +101,8 @@ class _LoginViewState extends State<LoginView> {
       _sharedPreferences = await SharedPreferences.getInstance();
       _sharedPreferences.setString(ApiSettings.API_TOKEN, r.token);
       _sharedPreferences.setString(ApiSettings.ID_USER, r.idUser);
+      _sharedPreferences.setString(ApiSettings.USERNAME, vm.email);
+      _sharedPreferences.setString(ApiSettings.PASSWORD, vm.password);
 
       Navigator.pushReplacementNamed(context, MainView.ROUTE);
     } else {

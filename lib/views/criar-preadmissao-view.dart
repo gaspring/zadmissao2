@@ -79,7 +79,6 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
 
   Widget _buildDetalhes() {
     return new Container(
-      padding: const EdgeInsets.all(4.0),
       child: new Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,

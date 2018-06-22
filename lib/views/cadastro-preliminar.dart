@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:zadmissao/api/vaga/pre-admissao-app-viewmodel.dart';
 import 'package:zadmissao/api/vaga/preadmissao-app-input.dart';
 import 'package:zadmissao/api/vaga/vaga-service.dart';
 import 'package:zadmissao/api/vaga/vaga-viewmodel.dart';
@@ -126,11 +127,13 @@ class _CadastroPreliminarState extends State<CadastroPreliminarView> {
         idVaga: vaga.idVaga));
 
     vaga.cpf = widget.cpf;
+    vaga.statusFotos = null;
 
     if (res != null) {
       vaga.idPreAdmissao = res.idPreAdmissaoApp;
       _transit(new CriarPreAdmissaoView(
         vagaViewModel: vaga,
+        preAdmissaoAppViewModel: new PreAdmissaoAppViewModel(),
       ));
     } else {
       _dialog.showAlertDialog("Ops...", "Tente novamente", "ok", "");

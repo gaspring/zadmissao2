@@ -1,66 +1,108 @@
 import 'package:flutter/material.dart';
 import 'package:masked_text/masked_text.dart';
 import 'package:zadmissao/api/vaga/documento-viewmodel.dart';
+import 'package:zadmissao/api/vaga/pre-admissao-app-viewmodel.dart';
 import 'package:zadmissao/api/vaga/vaga-viewmodel.dart';
 import 'package:zadmissao/views/camera-view.dart';
 
 class CriarPreAdmissaoView extends StatefulWidget {
   final VagaViewModel vagaViewModel;
+  final PreAdmissaoAppViewModel preAdmissaoAppViewModel;
 
-  CriarPreAdmissaoView({this.vagaViewModel});
+  CriarPreAdmissaoView({this.vagaViewModel, this.preAdmissaoAppViewModel});
 
   @override
   State<StatefulWidget> createState() => new _CriarPreAdmissaoState();
 }
 
 class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
-  TextEditingController _textEditingControllerCPF;
-
   List<DocumentoViewModel> _documentos;
 
   @override
   void initState() {
-    _textEditingControllerCPF = new TextEditingController();
     _documentos = new List<DocumentoViewModel>();
 
-    _documentos
-        .add(new DocumentoViewModel(nome: "RG", key: "RG", temVerso: true));
-    _documentos.add(new DocumentoViewModel(nome: "CPF", key: "CPF"));
     _documentos.add(new DocumentoViewModel(
-        nome: "Título de eleitor", key: "TITULODEELEITOR"));
-    _documentos
-        .add(new DocumentoViewModel(nome: "CTPS", key: "CTPS", temVerso: true));
-    _documentos.add(new DocumentoViewModel(nome: "PIS/PASEP", key: "PISPASEP"));
-    _documentos
-        .add(new DocumentoViewModel(nome: "Reservista", key: "RESERVISTA"));
-    _documentos.add(new DocumentoViewModel(nome: "CNH", key: "CNH"));
+        nome: "RG",
+        key: "RG",
+        temVerso: true,
+        icon: _chooseIcons(widget.preAdmissaoAppViewModel.statusRG)));
     _documentos.add(new DocumentoViewModel(
-        nome: "Conta bancária", key: "CONTABANCARIA", temVerso: true));
+        nome: "CPF",
+        key: "CPF",
+        icon: _chooseIcons(widget.preAdmissaoAppViewModel.statusDocumentoCPF)));
+    _documentos.add(new DocumentoViewModel(
+        nome: "Título de eleitor",
+        key: "TITULODEELEITOR",
+        icon: _chooseIcons(
+            widget.preAdmissaoAppViewModel.statusTituloDeEleitor)));
+    _documentos.add(new DocumentoViewModel(
+        nome: "CTPS",
+        key: "CTPS",
+        temVerso: true,
+        icon: _chooseIcons(widget.preAdmissaoAppViewModel.statusCTPS)));
+    _documentos.add(new DocumentoViewModel(
+        nome: "PIS/PASEP",
+        key: "PISPASEP",
+        icon: _chooseIcons(widget.preAdmissaoAppViewModel.statusPISPASEP)));
+    _documentos.add(new DocumentoViewModel(
+        nome: "Reservista",
+        key: "RESERVISTA",
+        icon: _chooseIcons(widget.preAdmissaoAppViewModel.statusReservista)));
+    _documentos.add(new DocumentoViewModel(
+        nome: "CNH",
+        key: "CNH",
+        icon: _chooseIcons(widget.preAdmissaoAppViewModel.statusCNH)));
+    _documentos.add(new DocumentoViewModel(
+        nome: "Conta bancária",
+        key: "CONTABANCARIA",
+        temVerso: true,
+        icon:
+            _chooseIcons(widget.preAdmissaoAppViewModel.statusContaBancaria)));
     _documentos.add(new DocumentoViewModel(
         nome: "Certidão de nascimento ou casamento",
-        key: "CERTIDAONASCIMENTOCASAMENTO"));
+        key: "CERTIDAONASCIMENTOCASAMENTO",
+        icon: _chooseIcons(
+            widget.preAdmissaoAppViewModel.statusCertidaoNascimentoCasamento)));
     _documentos.add(new DocumentoViewModel(
-        nome: "Escolaridade", key: "ESCOLARIDADE", temVerso: true));
-    _documentos.add(
-        new DocumentoViewModel(nome: "Carteirinha de vacina", key: "VACINA"));
+        nome: "Escolaridade",
+        key: "ESCOLARIDADE",
+        temVerso: true,
+        icon: _chooseIcons(widget.preAdmissaoAppViewModel.statusEscolaridade)));
     _documentos.add(new DocumentoViewModel(
-        nome: "Carteirinha de vacina 2", key: "VACINA2"));
+        nome: "Carteirinha de vacina",
+        key: "VACINA",
+        icon: _chooseIcons(widget.preAdmissaoAppViewModel.statusVacina)));
     _documentos.add(new DocumentoViewModel(
-        nome: "Carteirinha de vacina 3", key: "VACINA3"));
+        nome: "Carteirinha de vacina 2",
+        key: "VACINA2",
+        icon: _chooseIcons(widget.preAdmissaoAppViewModel.statusVacina2)));
+    _documentos.add(new DocumentoViewModel(
+        nome: "Carteirinha de vacina 3",
+        key: "VACINA3",
+        icon: _chooseIcons(widget.preAdmissaoAppViewModel.statusVacina3)));
     _documentos.add(new DocumentoViewModel(
         nome: "Certificado de formação de vigilante",
         key: "CERTIFICADOFORMACAOVIG",
-        temVerso: true));
+        temVerso: true,
+        icon: _chooseIcons(
+            widget.preAdmissaoAppViewModel.statusCertificadoFormacaoVig)));
     _documentos.add(new DocumentoViewModel(
         nome: "Certificado nacional de vigilante",
         key: "CNVVIG",
-        temVerso: true));
+        temVerso: true,
+        icon: _chooseIcons(widget.preAdmissaoAppViewModel.statusCNVVig)));
     _documentos.add(new DocumentoViewModel(
         nome: "Certificado de reciclagem",
         key: "CERTIFICADORECICLAGEMVIG",
-        temVerso: true));
-    _documentos.add(
-        new DocumentoViewModel(nome: "DRT", key: "DRTVIG", temVerso: true));
+        temVerso: true,
+        icon: _chooseIcons(
+            widget.preAdmissaoAppViewModel.statusCertificadoReciclagemVig)));
+    _documentos.add(new DocumentoViewModel(
+        nome: "DRT",
+        key: "DRTVIG",
+        temVerso: true,
+        icon: _chooseIcons(widget.preAdmissaoAppViewModel.statusDRTVig)));
 
     super.initState();
   }
@@ -159,7 +201,7 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
           return new ListTile(
               onTap: () => _dialogEscolherLadoFoto(documento),
               title: new Text(documento.nome),
-              trailing: new Icon(Icons.camera_alt));
+              trailing: documento.icon);
         });
   }
 
@@ -211,5 +253,25 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
               title: new Text("Informação"),
               content: _buildDetalhes(),
             ));
+  }
+
+  Icon _chooseIcons(String status) {
+    if (status == null) status = "";
+
+    var icon = new Icon(Icons.camera_alt);
+
+    switch (status.toUpperCase()) {
+      case "ENVIADO":
+        icon = new Icon(Icons.done, color: Colors.green);
+        break;
+      case "VALIDADO":
+        icon = new Icon(Icons.done_all, color: Colors.green);
+        break;
+      case "REVER IMAGEM":
+        icon = new Icon(Icons.thumb_down, color: Colors.red);
+        break;
+    }
+
+    return icon;
   }
 }

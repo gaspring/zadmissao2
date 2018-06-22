@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zadmissao/api/vaga/documento-viewmodel.dart';
+import 'package:zadmissao/api/vaga/pre-admissao-app-viewmodel.dart';
 import 'package:zadmissao/api/vaga/preadmissao-app-input.dart';
 import 'package:zadmissao/api/vaga/vaga-viewmodel.dart';
 import 'package:zadmissao/settings/api-settings.dart';
@@ -76,6 +77,29 @@ class VagaService {
       var responseJson = json.decode(response.body);
 
       var l = (responseJson as List).map((x) => new VagaViewModel.fromJson(x));
+
+      return l.toList();
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future<List<PreAdmissaoAppViewModel>> listarPreAdmissaoEmAnalise() async {
+    try {
+      var preferences = await SharedPreferences.getInstance();
+
+      var idUsuario = preferences.getString(ApiSettings.ID_USER);
+
+      _header[HttpHeaders.AUTHORIZATION] =
+          "Bearer ${preferences.get(ApiSettings.API_TOKEN)}";
+
+      var url = "$_URL/listar-pre-admissao-app-pendentes-usuario/$idUsuario";
+
+      var response = await http.get(url, headers: _header);
+      var responseJson = json.decode(response.body);
+
+      var l = (responseJson as List)
+          .map((x) => new PreAdmissaoAppViewModel.fromJson(x));
 
       return l.toList();
     } catch (e) {

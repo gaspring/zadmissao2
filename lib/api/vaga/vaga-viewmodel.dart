@@ -11,6 +11,8 @@ class VagaViewModel {
   String cargo;
   String cpf;
 
+  List<String> statusFotos;
+
   VagaViewModel(
       {this.idVaga,
       this.codigoVaga,
@@ -21,7 +23,9 @@ class VagaViewModel {
       this.horaFimPosicao,
       this.horaIntervaloPosicao,
       this.cargo,
-      this.idPreAdmissao});
+      this.idPreAdmissao,
+      this.statusFotos,
+      this.cpf: ""});
 
   factory VagaViewModel.fromJson(Map<String, dynamic> json) {
     return new VagaViewModel(

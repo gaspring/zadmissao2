@@ -3,6 +3,7 @@ import 'package:masked_text/masked_text.dart';
 import 'package:zadmissao/api/vaga/documento-viewmodel.dart';
 import 'package:zadmissao/api/vaga/pre-admissao-app-viewmodel.dart';
 import 'package:zadmissao/api/vaga/vaga-viewmodel.dart';
+import 'package:zadmissao/views/dependente-view.dart';
 import 'package:zadmissao/views/camera-view.dart';
 
 class CriarPreAdmissaoView extends StatefulWidget {
@@ -22,6 +23,8 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
   void initState() {
     _documentos = new List<DocumentoViewModel>();
 
+    _documentos.add(new DocumentoViewModel(
+        nome: "Dependentes", key: "DEPENDENTES", icon: new Icon(Icons.group)));
     _documentos.add(new DocumentoViewModel(
         nome: "RG",
         key: "RG",
@@ -116,7 +119,11 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
               new IconButton(
                   icon: new Icon(Icons.info), onPressed: _openInfoDialog),
             ]),
-        body: _buildDocumentos());
+        body: new Container(
+          child: new ListView(
+            children: <Widget>[_buildDocumentos()],
+          ),
+        ));
   }
 
   Widget _buildDetalhes() {
@@ -192,6 +199,7 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
 
   Widget _buildDocumentos() {
     return new ListView.builder(
+        physics: const AlwaysScrollableScrollPhysics(),
         shrinkWrap: true,
         itemCount: _documentos.length,
         itemBuilder: (context, index) {
@@ -199,10 +207,19 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
           documento.idPreAdmissaoApp = widget.vagaViewModel.idPreAdmissao;
 
           return new ListTile(
-              onTap: () => _dialogEscolherLadoFoto(documento),
+              onTap: () => _checkItemClick(documento),
               title: new Text(documento.nome),
               trailing: documento.icon);
         });
+  }
+
+  void _checkItemClick(DocumentoViewModel documento){
+    if(documento.key == "DEPENDENTES"){
+      _transit(new DependenteView(documento: documento,));
+    }
+    else{
+      _dialogEscolherLadoFoto(documento);
+    }
   }
 
   void _dialogEscolherLadoFoto(DocumentoViewModel documento) {
@@ -273,5 +290,12 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
     }
 
     return icon;
+  }
+
+  void _transit(Widget widget) {
+    Navigator.push(
+      context,
+      new MaterialPageRoute(builder: (context) => widget),
+    );
   }
 }

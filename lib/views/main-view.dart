@@ -48,7 +48,7 @@ class _MainViewState extends State<MainView> {
                 icon: new Icon(Icons.query_builder),
                 title: new Text("Em análise")),
             new BottomNavigationBarItem(
-                icon: new Icon(Icons.add), title: new Text("Criar")),
+                icon: new Icon(Icons.add), title: new Text("Admitir")),
             new BottomNavigationBarItem(
                 icon: new Icon(Icons.history), title: new Text("Histórico")),
           ],

@@ -6,6 +6,8 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zadmissao/api/vaga/documento-viewmodel.dart';
 import 'package:zadmissao/api/vaga/pre-admissao-app-viewmodel.dart';
+import 'package:zadmissao/api/vaga/preadmissao-app-dependente-input.dart';
+import 'package:zadmissao/api/vaga/preadmissao-app-dependente-viewmodel.dart';
 import 'package:zadmissao/api/vaga/preadmissao-app-input.dart';
 import 'package:zadmissao/api/vaga/vaga-viewmodel.dart';
 import 'package:zadmissao/settings/api-settings.dart';
@@ -102,6 +104,27 @@ class VagaService {
           .map((x) => new PreAdmissaoAppViewModel.fromJson(x));
 
       return l.toList();
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future<PreAdmissaoAppDependenteViewModel> adicionarDependente(
+      PreAdmissaoAppDependenteInput input) async {
+    try {
+      var preferences = await SharedPreferences.getInstance();
+
+      _header[HttpHeaders.AUTHORIZATION] =
+          "Bearer ${preferences.get(ApiSettings.API_TOKEN)}";
+
+      var url = "$_URL/adicionar-dependente-app";
+
+      var response = await http.post(url,
+          body: json.encode(input.toMap()), headers: _header);
+
+      var responseJson = json.decode(response.body);
+
+      return new PreAdmissaoAppDependenteViewModel.fromJson(responseJson);
     } catch (e) {
       return null;
     }

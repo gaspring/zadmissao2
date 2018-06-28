@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zadmissao/api/vaga/documento-viewmodel.dart';
 import 'package:zadmissao/api/vaga/preadmissao-app-dependente-viewmodel.dart';
+import 'package:zadmissao/views/adicionar-dependente-view.dart';
 
 class DependenteView extends StatefulWidget {
   final DocumentoViewModel documento;
@@ -26,7 +27,10 @@ class _DependenteState extends State<DependenteView> {
       appBar: new AppBar(
         title: new Text("${widget.documento.nome}"),
         actions: <Widget>[
-          new IconButton(icon: new Icon(Icons.add), onPressed: () => null)
+          new IconButton(
+              icon: new Icon(Icons.add),
+              onPressed: () => _transit(new AdicionarDependenteView(
+                  idPreAdmissaoApp: widget.documento.idPreAdmissaoApp)))
         ],
       ),
       body: new Container(
@@ -53,7 +57,23 @@ class _DependenteState extends State<DependenteView> {
       child: new ListView.builder(
           shrinkWrap: true,
           itemCount: _dependentes.length,
-          itemBuilder: (context, index) => null),
+          itemBuilder: (context, index) {
+            return new Card(
+              child: new Container(
+                padding: const EdgeInsets.all(8.0),
+                child: new ListTile(
+                  title: new Text(""),
+                ),
+              ),
+            );
+          }),
+    );
+  }
+
+  void _transit(Widget widget) {
+    Navigator.push(
+      context,
+      new MaterialPageRoute(builder: (context) => widget),
     );
   }
 }

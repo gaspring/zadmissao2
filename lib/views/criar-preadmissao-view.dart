@@ -199,7 +199,6 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
 
   Widget _buildDocumentos() {
     return new ListView.builder(
-        physics: const AlwaysScrollableScrollPhysics(),
         shrinkWrap: true,
         itemCount: _documentos.length,
         itemBuilder: (context, index) {
@@ -215,7 +214,7 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
 
   void _checkItemClick(DocumentoViewModel documento){
     if(documento.key == "DEPENDENTES"){
-      _transit(new DependenteView(documento: documento,));
+      _transit(new DependenteView(documento: documento));
     }
     else{
       _dialogEscolherLadoFoto(documento);

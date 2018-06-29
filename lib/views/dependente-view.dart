@@ -4,6 +4,7 @@ import 'package:zadmissao/api/vaga/preadmissao-app-dependente-viewmodel.dart';
 import 'package:zadmissao/api/vaga/vaga-service.dart';
 import 'package:zadmissao/utils/dialog-utils.dart';
 import 'package:zadmissao/views/adicionar-dependente-view.dart';
+import 'package:zadmissao/views/dependente-documentos-view.dart';
 
 class DependenteView extends StatefulWidget {
   final DocumentoViewModel documento;
@@ -73,6 +74,10 @@ class _DependenteState extends State<DependenteView> {
               child: new Container(
                 padding: const EdgeInsets.all(8.0),
                 child: new ListTile(
+                  onTap: () {
+                    _transit(new DependenteDocumentosView(
+                        preAdmissaoAppDependente: dependente));
+                  },
                   title: new Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,

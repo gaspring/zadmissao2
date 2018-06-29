@@ -65,7 +65,8 @@ class _ConfirmarFotoState extends State<ConfirmarFotoView> {
         new AtualizarDocumentoPreAdmissaoInput(
             documento: widget.documento.key,
             idPreAdmissao: widget.documento.idPreAdmissaoApp),
-        _image);
+        _image,
+        widget.documento.dependenteOuAdmissao);
     _dialog.dismiss();
 
     widget.documento.key = widget.documento.key.replaceAll("VERSO", "");

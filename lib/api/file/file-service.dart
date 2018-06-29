@@ -12,12 +12,12 @@ import 'package:zadmissao/settings/api-settings.dart';
 class FileService {
   String _URL = "${ApiSettings.ENDPOINT}/vaga";
 
-  Future uploadFile(AtualizarDocumentoPreAdmissaoInput input, File file) async {
+  Future uploadFile(AtualizarDocumentoPreAdmissaoInput input, File file, String tipo) async {
     try {
       var stream = new http.ByteStream(DelegatingStream.typed(file.openRead()));
 
       var length = await file.length();
-      var uri = Uri.parse("$_URL/atualizar-pre-admissao-app/${input.idPreAdmissao}/${input.documento}");
+      var uri = Uri.parse("$_URL/${_chooseURL(tipo)}/${input.idPreAdmissao}/${input.documento}");
 
       var request = new http.MultipartRequest("POST", uri);
 
@@ -33,6 +33,17 @@ class FileService {
       });
     } catch (e) {
       return null;
+    }
+  }
+
+  String _chooseURL(String tipo){
+    switch(tipo){
+      case "A":
+        return "atualizar-pre-admissao-app";
+      case "D":
+        return "atualizar-pre-admissao-app-dependente";
+        default:
+          return "";
     }
   }
 }

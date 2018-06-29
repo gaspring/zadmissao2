@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:zadmissao/api/vaga/documento-viewmodel.dart';
 import 'package:zadmissao/api/vaga/preadmissao-app-dependente-viewmodel.dart';
+import 'package:zadmissao/api/vaga/vaga-service.dart';
+import 'package:zadmissao/utils/dialog-utils.dart';
 import 'package:zadmissao/views/adicionar-dependente-view.dart';
 
 class DependenteView extends StatefulWidget {
@@ -15,9 +17,16 @@ class DependenteView extends StatefulWidget {
 class _DependenteState extends State<DependenteView> {
   List<PreAdmissaoAppDependenteViewModel> _dependentes;
 
+  VagaService _vagaService;
+  DialogUtils _dialog;
+
   @override
   void initState() {
     _dependentes = new List<PreAdmissaoAppDependenteViewModel>();
+    _vagaService = new VagaService();
+    _dialog = new DialogUtils(context);
+
+    _listarDependentes();
     super.initState();
   }
 
@@ -58,16 +67,47 @@ class _DependenteState extends State<DependenteView> {
           shrinkWrap: true,
           itemCount: _dependentes.length,
           itemBuilder: (context, index) {
+            var dependente = _dependentes[index];
+
             return new Card(
               child: new Container(
                 padding: const EdgeInsets.all(8.0),
                 child: new ListTile(
-                  title: new Text(""),
+                  title: new Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      new Container(
+                          padding: const EdgeInsets.all(2.0),
+                          child: new Text(
+                            dependente.nome,
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          )),
+                      new Container(
+                          padding: const EdgeInsets.all(2.0),
+                          child: new Text(dependente.grauParentesco))
+                    ],
+                  ),
                 ),
               ),
             );
           }),
     );
+  }
+
+  void _listarDependentes() async {
+    _dialog.showProgressDialog();
+    var lista = await _vagaService
+        .listarDependentesPreAdmissaoApp(widget.documento.idPreAdmissaoApp);
+    _dialog.dismiss();
+
+    if (lista != null) {
+      setState(() {
+        _dependentes = lista;
+      });
+    } else {
+      _dialog.showAlertDialog("Ops...", "Tente novamente", "ok");
+    }
   }
 
   void _transit(Widget widget) {

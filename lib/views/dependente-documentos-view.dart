@@ -20,41 +20,37 @@ class _DependenteDocumentoState extends State<DependenteDocumentosView> {
     _documentos = new List<DocumentoViewModel>();
 
     _documentos.add(new DocumentoViewModel(
-      nome: "RG",
-      key: "RGDEPENDENTE",
-      temVerso: true,
-      icon: _chooseIcons(widget.preAdmissaoAppDependente.statusRG)
-    ));
+        nome: "RG",
+        key: "RGDEPENDENTE",
+        temVerso: true,
+        icon: _chooseIcons(widget.preAdmissaoAppDependente.statusRG)));
     _documentos.add(new DocumentoViewModel(
-      nome: "CPF",
-      key: "CPFDEPENDENTE",
-      icon: _chooseIcons(widget.preAdmissaoAppDependente.statusDocumentoCPF)
-    ));
+        nome: "CPF",
+        key: "CPFDEPENDENTE",
+        icon:
+            _chooseIcons(widget.preAdmissaoAppDependente.statusDocumentoCPF)));
     _documentos.add(new DocumentoViewModel(
-      nome: "Certidão de nascimento",
-      key: "NASCIMENTODEPENDENTE",
-      icon: _chooseIcons(widget.preAdmissaoAppDependente.statusCertidaoNascimento)
-    ));
+        nome: "Certidão de nascimento",
+        key: "NASCIMENTODEPENDENTE",
+        icon: _chooseIcons(
+            widget.preAdmissaoAppDependente.statusCertidaoNascimento)));
     _documentos.add(new DocumentoViewModel(
-      nome: "Frequência escolar",
-      key: "FREQUENCIAESCOLARDEPENDENTE",
-      icon: _chooseIcons(widget.preAdmissaoAppDependente.statusFrequenciaEscolar)
-    ));
+        nome: "Frequência escolar",
+        key: "FREQUENCIAESCOLARDEPENDENTE",
+        icon: _chooseIcons(
+            widget.preAdmissaoAppDependente.statusFrequenciaEscolar)));
     _documentos.add(new DocumentoViewModel(
-      nome: "Vacina",
-      key: "VACINADEPENDENTE",
-      icon: _chooseIcons(widget.preAdmissaoAppDependente.statusVacina)
-    ));
+        nome: "Vacina",
+        key: "VACINADEPENDENTE",
+        icon: _chooseIcons(widget.preAdmissaoAppDependente.statusVacina)));
     _documentos.add(new DocumentoViewModel(
-      nome: "Vacina 2",
-      key: "VACINA2DEPENDENTE",
-      icon: _chooseIcons(widget.preAdmissaoAppDependente.statusVacina2)
-    ));
+        nome: "Vacina 2",
+        key: "VACINA2DEPENDENTE",
+        icon: _chooseIcons(widget.preAdmissaoAppDependente.statusVacina2)));
     _documentos.add(new DocumentoViewModel(
-      nome: "Vacina 3",
-      key: "VACINA3DEPENDENTE",
-      icon: _chooseIcons(widget.preAdmissaoAppDependente.statusVacina3)
-    ));
+        nome: "Vacina 3",
+        key: "VACINA3DEPENDENTE",
+        icon: _chooseIcons(widget.preAdmissaoAppDependente.statusVacina3)));
 
     super.initState();
   }
@@ -78,7 +74,8 @@ class _DependenteDocumentoState extends State<DependenteDocumentosView> {
         itemCount: _documentos.length,
         itemBuilder: (context, index) {
           var documento = _documentos[index];
-          documento.idPreAdmissaoApp = widget.preAdmissaoAppDependente.idPreAdmissaoAppDependente;
+          documento.idPreAdmissaoApp =
+              widget.preAdmissaoAppDependente.idPreAdmissaoAppDependente;
           documento.dependenteOuAdmissao = "D";
 
           return new ListTile(
@@ -110,23 +107,28 @@ class _DependenteDocumentoState extends State<DependenteDocumentosView> {
     showDialog(
         context: context,
         builder: (BuildContext context) => new AlertDialog(
-          title: new Text("Tirar foto"),
-          content: new Container(
-            padding: const EdgeInsets.all(4.0),
-            child: new Column(
-              mainAxisSize: MainAxisSize.min,
-              children: fotos,
-            ),
-          ),
-        ));
+              title: new Text("Tirar foto"),
+              content: new Container(
+                padding: const EdgeInsets.all(4.0),
+                child: new Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: fotos,
+                ),
+              ),
+            ));
   }
 
-  void _abrirCamera(DocumentoViewModel documento) {
-    Navigator.push(
+  _abrirCamera(DocumentoViewModel documento) async {
+    final isChecked = await Navigator.push(
       context,
       new MaterialPageRoute(
           builder: (context) => new CameraView(documento: documento)),
     );
+
+    if (isChecked == "doneSendingPhotoToServer") {
+      _documentos.where((doc) => doc.key == documento.key).first.icon =
+          new Icon(Icons.done, color: Colors.green);
+    }
   }
 
   Icon _chooseIcons(String status) {

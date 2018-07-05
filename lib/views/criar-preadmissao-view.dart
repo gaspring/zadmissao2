@@ -23,8 +23,8 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
   void initState() {
     _documentos = new List<DocumentoViewModel>();
 
-        _documentos.add(new DocumentoViewModel(
-    nome: "Dependentes", key: "DEPENDENTES", icon: new Icon(Icons.group)));
+    _documentos.add(new DocumentoViewModel(
+        nome: "Dependentes", key: "DEPENDENTES", icon: new Icon(Icons.group)));
     _documentos.add(new DocumentoViewModel(
         nome: "RG",
         key: "RG",
@@ -119,9 +119,7 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
               new IconButton(
                   icon: new Icon(Icons.info), onPressed: _openInfoDialog),
             ]),
-        body: new Container(
-          child: _buildDocumentos()
-        ));
+        body: new Container(child: _buildDocumentos()));
   }
 
   Widget _buildDetalhes() {
@@ -210,11 +208,10 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
         });
   }
 
-  void _checkItemClick(DocumentoViewModel documento){
-    if(documento.key == "DEPENDENTES"){
+  void _checkItemClick(DocumentoViewModel documento) {
+    if (documento.key == "DEPENDENTES") {
       _transit(new DependenteView(documento: documento));
-    }
-    else{
+    } else {
       _dialogEscolherLadoFoto(documento);
     }
   }
@@ -252,12 +249,17 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
             ));
   }
 
-  void _abrirCamera(DocumentoViewModel documento) {
-    Navigator.push(
+  _abrirCamera(DocumentoViewModel documento) async {
+    final isChecked = await Navigator.push(
       context,
       new MaterialPageRoute(
           builder: (context) => new CameraView(documento: documento)),
     );
+
+    if (isChecked == "doneSendingPhotoToServer") {
+      _documentos.where((doc) => doc.key == documento.key).first.icon =
+          new Icon(Icons.done, color: Colors.green);
+    }
   }
 
   void _openInfoDialog() {

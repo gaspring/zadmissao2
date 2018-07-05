@@ -23,8 +23,8 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
   void initState() {
     _documentos = new List<DocumentoViewModel>();
 
-    _documentos.add(new DocumentoViewModel(
-        nome: "Dependentes", key: "DEPENDENTES", icon: new Icon(Icons.group)));
+        _documentos.add(new DocumentoViewModel(
+    nome: "Dependentes", key: "DEPENDENTES", icon: new Icon(Icons.group)));
     _documentos.add(new DocumentoViewModel(
         nome: "RG",
         key: "RG",
@@ -120,9 +120,7 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
                   icon: new Icon(Icons.info), onPressed: _openInfoDialog),
             ]),
         body: new Container(
-          child: new ListView(
-            children: <Widget>[_buildDocumentos()],
-          ),
+          child: _buildDocumentos()
         ));
   }
 

@@ -72,6 +72,6 @@ class _ConfirmarFotoState extends State<ConfirmarFotoView> {
     widget.documento.key = widget.documento.key.replaceAll("VERSO", "");
 
     Navigator.pop(context);
-    Navigator.pop(context);
+    Navigator.pop(context, "doneSendingPhotoToServer");
   }
 }

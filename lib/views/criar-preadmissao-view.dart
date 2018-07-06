@@ -256,12 +256,17 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
             ));
   }
 
-  void _abrirCamera(DocumentoViewModel documento) {
-    Navigator.push(
+  _abrirCamera(DocumentoViewModel documento) async {
+    final isChecked = await Navigator.push(
       context,
       new MaterialPageRoute(
           builder: (context) => new CameraView(documento: documento)),
     );
+
+    if (isChecked == "doneSendingPhotoToServer") {
+      _documentos.where((doc) => doc.key == documento.key).first.icon =
+          new Icon(Icons.done, color: Colors.green);
+    }
   }
 
   void _openInfoDialog() {

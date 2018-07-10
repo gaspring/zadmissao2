@@ -5,6 +5,7 @@ import 'package:zadmissao/views/cadastro-preliminar.dart';
 import 'package:zadmissao/views/criar-preadmissao-view.dart';
 import 'package:zadmissao/views/em-analise-view.dart';
 import 'package:zadmissao/views/lista-preadmissao-view.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class MainView extends StatefulWidget {
   static final String ROUTE = "/main";
@@ -14,6 +15,8 @@ class MainView extends StatefulWidget {
 }
 
 class _MainViewState extends State<MainView> {
+  FirebaseMessaging _firebaseMessaging = new FirebaseMessaging();
+
   static const int _EM_ANALISE = 0;
   static const int _CRIAR_PREADMISSAO = 1;
   static const int _HISTORICO_PREADMISSAO = 2;
@@ -32,7 +35,29 @@ class _MainViewState extends State<MainView> {
     _emAnalise = new EmAnaliseView();
     _selectedTab = 0;
     _body = _emAnalise;
+
+    initFirebase();
+
     super.initState();
+  }
+
+  void initFirebase() {
+     _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) {
+        print("onMessage $message");
+      },
+      onResume: (Map<String, dynamic> message) {
+        print("onResume $message");
+      },
+      onLaunch: (Map<String, dynamic> message) {
+        print("onLaunch $message");
+      },
+    );
+    _firebaseMessaging.requestNotificationPermissions(
+        const IosNotificationSettings(sound: true, badge: true, alert: true));
+    _firebaseMessaging.getToken().then((token) {
+      print(token);
+    });
   }
 
   @override

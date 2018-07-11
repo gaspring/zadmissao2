@@ -29,7 +29,8 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
         nome: "RG",
         key: "RG",
         temVerso: true,
-        icon: _chooseIcons(widget.preAdmissaoAppViewModel.statusRG)));
+        icon: _chooseIcons(widget.preAdmissaoAppViewModel.statusRG),
+        iconVerse: _chooseIcons(widget.preAdmissaoAppViewModel.statusRGVerso)));
     _documentos.add(new DocumentoViewModel(
         nome: "CPF",
         key: "CPF",
@@ -43,7 +44,9 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
         nome: "CTPS",
         key: "CTPS",
         temVerso: true,
-        icon: _chooseIcons(widget.preAdmissaoAppViewModel.statusCTPS)));
+        icon: _chooseIcons(widget.preAdmissaoAppViewModel.statusCTPS),
+        iconVerse:
+            _chooseIcons(widget.preAdmissaoAppViewModel.statusCTPSVerso)));
     _documentos.add(new DocumentoViewModel(
         nome: "PIS/PASEP",
         key: "PISPASEP",
@@ -60,8 +63,9 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
         nome: "Conta bancária",
         key: "CONTABANCARIA",
         temVerso: true,
-        icon:
-            _chooseIcons(widget.preAdmissaoAppViewModel.statusContaBancaria)));
+        icon: _chooseIcons(widget.preAdmissaoAppViewModel.statusContaBancaria),
+        iconVerse: _chooseIcons(
+            widget.preAdmissaoAppViewModel.statusContaBancariaVerso)));
     _documentos.add(new DocumentoViewModel(
         nome: "Certidão de nascimento ou casamento",
         key: "CERTIDAONASCIMENTOCASAMENTO",
@@ -71,7 +75,9 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
         nome: "Escolaridade",
         key: "ESCOLARIDADE",
         temVerso: true,
-        icon: _chooseIcons(widget.preAdmissaoAppViewModel.statusEscolaridade)));
+        icon: _chooseIcons(widget.preAdmissaoAppViewModel.statusEscolaridade),
+        iconVerse: _chooseIcons(
+            widget.preAdmissaoAppViewModel.statusEscolaridadeVerso)));
     _documentos.add(new DocumentoViewModel(
         nome: "Carteirinha de vacina",
         key: "VACINA",
@@ -89,23 +95,31 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
         key: "CERTIFICADOFORMACAOVIG",
         temVerso: true,
         icon: _chooseIcons(
-            widget.preAdmissaoAppViewModel.statusCertificadoFormacaoVig)));
+            widget.preAdmissaoAppViewModel.statusCertificadoFormacaoVig),
+        iconVerse: _chooseIcons(
+            widget.preAdmissaoAppViewModel.statusCertificadoFormacaoVigVerso)));
     _documentos.add(new DocumentoViewModel(
         nome: "Certificado nacional de vigilante",
         key: "CNVVIG",
         temVerso: true,
-        icon: _chooseIcons(widget.preAdmissaoAppViewModel.statusCNVVig)));
+        icon: _chooseIcons(widget.preAdmissaoAppViewModel.statusCNVVig),
+        iconVerse:
+            _chooseIcons(widget.preAdmissaoAppViewModel.statusCNVVigVerso)));
     _documentos.add(new DocumentoViewModel(
         nome: "Certificado de reciclagem",
         key: "CERTIFICADORECICLAGEMVIG",
         temVerso: true,
         icon: _chooseIcons(
-            widget.preAdmissaoAppViewModel.statusCertificadoReciclagemVig)));
+            widget.preAdmissaoAppViewModel.statusCertificadoReciclagemVig),
+        iconVerse: _chooseIcons(widget
+            .preAdmissaoAppViewModel.statusCertificadoReciclagemVigVerso)));
     _documentos.add(new DocumentoViewModel(
         nome: "DRT",
         key: "DRTVIG",
         temVerso: true,
-        icon: _chooseIcons(widget.preAdmissaoAppViewModel.statusDRTVig)));
+        icon: _chooseIcons(widget.preAdmissaoAppViewModel.statusDRTVig),
+        iconVerse:
+            _chooseIcons(widget.preAdmissaoAppViewModel.statusDRTVigVerso)));
 
     super.initState();
   }
@@ -211,8 +225,39 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
           return new ListTile(
               onTap: () => _checkItemClick(documento),
               title: new Text(documento.nome),
-              trailing: documento.icon);
+              trailing: documento.temVerso == true
+                  ? _hasTwoIcons(documento)
+                  : documento.icon);
         });
+  }
+
+  Widget _hasTwoIcons(DocumentoViewModel doc) {
+    return Container(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          buildIconColumn(doc.icon, 'Frente'),
+          buildIconColumn(doc.iconVerse, 'Verso')
+        ],
+      ),
+    );
+  }
+
+  Column buildIconColumn(Icon icon, String label) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        icon,
+        Container(
+          margin: const EdgeInsets.only(left: 3.0),
+          child: Text(
+            label,
+            style: TextStyle(fontSize: 10.0),
+          ),
+        )
+      ],
+    );
   }
 
   void _checkItemClick(DocumentoViewModel documento) {
@@ -226,7 +271,7 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
   void _dialogEscolherLadoFoto(DocumentoViewModel documento) {
     var fotos = [
       new ListTile(
-        onTap: () => _abrirCamera(documento),
+        onTap: () => _abrirCamera(documento, "Frente"),
         title: new Text("Frente"),
         trailing: new Icon(Icons.add_a_photo),
       )
@@ -236,7 +281,7 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
       fotos.add(new ListTile(
         onTap: () {
           documento.key = "${documento.key}VERSO";
-          _abrirCamera(documento);
+          _abrirCamera(documento, "Verso");
         },
         title: new Text("Verso"),
         trailing: new Icon(Icons.add_a_photo),
@@ -256,15 +301,19 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
             ));
   }
 
-  _abrirCamera(DocumentoViewModel documento) async {
+  _abrirCamera(documento, String isVerse) async {
     final isChecked = await Navigator.push(
       context,
       new MaterialPageRoute(
-          builder: (context) => new CameraView(documento: documento)),
+          builder: (context) =>
+              new CameraView(documento: documento, verso: isVerse)),
     );
 
-    if (isChecked == "doneSendingPhotoToServer") {
+    if (isChecked == "doneSendingPhotoToServer-Frente") {
       _documentos.where((doc) => doc.key == documento.key).first.icon =
+          new Icon(Icons.done, color: Colors.green);
+    } else if (isChecked == "doneSendingPhotoToServer-Verso") {
+      _documentos.where((doc) => doc.key == documento.key).first.iconVerse =
           new Icon(Icons.done, color: Colors.green);
     }
   }

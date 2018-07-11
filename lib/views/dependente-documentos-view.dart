@@ -23,7 +23,9 @@ class _DependenteDocumentoState extends State<DependenteDocumentosView> {
         nome: "RG",
         key: "RGDEPENDENTE",
         temVerso: true,
-        icon: _chooseIcons(widget.preAdmissaoAppDependente.statusRG)));
+        icon: _chooseIcons(widget.preAdmissaoAppDependente.statusRG),
+        iconVerse:
+            _chooseIcons(widget.preAdmissaoAppDependente.statusRGVerso)));
     _documentos.add(new DocumentoViewModel(
         nome: "CPF",
         key: "CPFDEPENDENTE",
@@ -81,14 +83,45 @@ class _DependenteDocumentoState extends State<DependenteDocumentosView> {
           return new ListTile(
               onTap: () => _dialogEscolherLadoFoto(documento),
               title: new Text(documento.nome),
-              trailing: documento.icon);
+              trailing: documento.temVerso == true
+                  ? _hasTwoIcons(documento)
+                  : documento.icon);
         });
+  }
+
+  Widget _hasTwoIcons(DocumentoViewModel doc) {
+    return Container(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          buildIconColumn(doc.icon, 'Frente'),
+          buildIconColumn(doc.iconVerse, 'Verso')
+        ],
+      ),
+    );
+  }
+
+  Column buildIconColumn(Icon icon, String label) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        icon,
+        Container(
+          margin: const EdgeInsets.only(left: 3.0),
+          child: Text(
+            label,
+            style: TextStyle(fontSize: 10.0),
+          ),
+        )
+      ],
+    );
   }
 
   void _dialogEscolherLadoFoto(DocumentoViewModel documento) {
     var fotos = [
       new ListTile(
-        onTap: () => _abrirCamera(documento),
+        onTap: () => _abrirCamera(documento, "Frente"),
         title: new Text("Frente"),
         trailing: new Icon(Icons.add_a_photo),
       )
@@ -98,7 +131,7 @@ class _DependenteDocumentoState extends State<DependenteDocumentosView> {
       fotos.add(new ListTile(
         onTap: () {
           documento.key = "${documento.key}VERSO";
-          _abrirCamera(documento);
+          _abrirCamera(documento, "Verso");
         },
         title: new Text("Verso"),
         trailing: new Icon(Icons.add_a_photo),
@@ -118,15 +151,19 @@ class _DependenteDocumentoState extends State<DependenteDocumentosView> {
             ));
   }
 
-  _abrirCamera(DocumentoViewModel documento) async {
+  _abrirCamera(DocumentoViewModel documento, String isVerse) async {
     final isChecked = await Navigator.push(
       context,
       new MaterialPageRoute(
-          builder: (context) => new CameraView(documento: documento)),
+          builder: (context) =>
+              new CameraView(documento: documento, verso: isVerse)),
     );
 
-    if (isChecked == "doneSendingPhotoToServer") {
+    if (isChecked == "doneSendingPhotoToServer-Frente") {
       _documentos.where((doc) => doc.key == documento.key).first.icon =
+          new Icon(Icons.done, color: Colors.green);
+    } else if (isChecked == "doneSendingPhotoToServer-Verso") {
+      _documentos.where((doc) => doc.key == documento.key).first.iconVerse =
           new Icon(Icons.done, color: Colors.green);
     }
   }

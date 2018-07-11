@@ -6,11 +6,13 @@ import 'package:camera/camera.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:zadmissao/api/vaga/documento-viewmodel.dart';
 import 'package:zadmissao/views/confirmar-foto-view.dart';
+import 'package:image/image.dart' as Im;
 
 class CameraView extends StatefulWidget {
   DocumentoViewModel documento;
+  String verso;
 
-  CameraView({this.documento});
+  CameraView({this.documento, this.verso});
 
   @override
   State<StatefulWidget> createState() => new _CameraViewState();
@@ -104,7 +106,19 @@ class _CameraViewState extends State<CameraView> {
       return null;
     }
 
-    _transit(new ConfirmarFotoView(path: filePath, documento: widget.documento));
+    final resizedFile = compressImage(filePath);
+
+    _transit(new ConfirmarFotoView(
+        path: resizedFile, documento: widget.documento, verso: widget.verso));
+  }
+
+  String compressImage(String filePath) {
+    Im.Image image = Im.decodeImage(new File(filePath).readAsBytesSync());
+    Im.Image compressedImg = Im.copyResize(image, 1024);
+
+    var resized = new File(filePath)
+      ..writeAsBytesSync(Im.encodeJpg(compressedImg, quality: 75));
+    return resized.path;
   }
 
   void _transit(Widget widget) {

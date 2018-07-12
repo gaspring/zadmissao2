@@ -7,6 +7,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:zadmissao/api/vaga/documento-viewmodel.dart';
 import 'package:zadmissao/views/confirmar-foto-view.dart';
 import 'package:image/image.dart' as Im;
+import 'package:zadmissao/utils/dialog-utils.dart';
 
 class CameraView extends StatefulWidget {
   DocumentoViewModel documento;
@@ -25,11 +26,14 @@ class _CameraViewState extends State<CameraView> {
 
   Widget _body;
 
+  DialogUtils _loading;
+
   @override
   void initState() {
     super.initState();
     _initCamera();
     _body = new Container();
+    _loading = new DialogUtils(context);
   }
 
   void _initCamera() async {
@@ -91,6 +95,7 @@ class _CameraViewState extends State<CameraView> {
     if (!_cameraController.value.isInitialized) {
       return null;
     }
+    _loading.showProgressDialog();
     final Directory extDir = await getApplicationDocumentsDirectory();
     final String dirPath = '${extDir.path}/Pictures';
     await new Directory(dirPath).create(recursive: true);
@@ -107,6 +112,8 @@ class _CameraViewState extends State<CameraView> {
     }
 
     final resizedFile = compressImage(filePath);
+
+    if (resizedFile != null) _loading.dismiss();
 
     _transit(new ConfirmarFotoView(
         path: resizedFile, documento: widget.documento, verso: widget.verso));

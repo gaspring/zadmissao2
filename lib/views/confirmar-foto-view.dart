@@ -69,14 +69,14 @@ class _ConfirmarFotoState extends State<ConfirmarFotoView> {
     });
   }
 
-  void _onDragStart(BuildContext context, DragStartDetails details) {
+  _onDragStart(BuildContext context, DragStartDetails details) {
     RenderBox getBox = context.findRenderObject();
-    var local = getBox.globalToLocal(details.globalPosition);
+    return getBox.globalToLocal(details.globalPosition);
   }
 
-  void _onDragUpdate(BuildContext context, DragUpdateDetails details) {
+  _onDragUpdate(BuildContext context, DragUpdateDetails details) {
     RenderBox getBox = context.findRenderObject();
-    var local = getBox.globalToLocal(details.globalPosition);
+    return getBox.globalToLocal(details.globalPosition);
   }
 
   @override
@@ -97,10 +97,10 @@ class _ConfirmarFotoState extends State<ConfirmarFotoView> {
                 _previousZoom = null;
               },
               onDoubleTap: _doubleTapEnable ? _handleScaleReset : null,
-            onHorizontalDragStart: (DragStartDetails details) =>
-                _onDragStart(context, details),
-            onHorizontalDragUpdate: (DragUpdateDetails details) =>
-                _onDragUpdate(context, details),
+            // onHorizontalDragStart: (DragStartDetails details) =>
+            //     _onDragStart(context, details),
+            // onHorizontalDragUpdate: (DragUpdateDetails details) =>
+            //     _onDragUpdate(context, details),
               child: new Transform(
                 transform:
                     new Matrix4.diagonal3(new v3.Vector3(_zoom, _zoom, _zoom)),

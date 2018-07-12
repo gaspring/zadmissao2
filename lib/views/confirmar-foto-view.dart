@@ -69,16 +69,6 @@ class _ConfirmarFotoState extends State<ConfirmarFotoView> {
     });
   }
 
-  _onDragStart(BuildContext context, DragStartDetails details) {
-    RenderBox getBox = context.findRenderObject();
-    return getBox.globalToLocal(details.globalPosition);
-  }
-
-  _onDragUpdate(BuildContext context, DragUpdateDetails details) {
-    RenderBox getBox = context.findRenderObject();
-    return getBox.globalToLocal(details.globalPosition);
-  }
-
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -97,10 +87,6 @@ class _ConfirmarFotoState extends State<ConfirmarFotoView> {
                 _previousZoom = null;
               },
               onDoubleTap: _doubleTapEnable ? _handleScaleReset : null,
-            // onHorizontalDragStart: (DragStartDetails details) =>
-            //     _onDragStart(context, details),
-            // onHorizontalDragUpdate: (DragUpdateDetails details) =>
-            //     _onDragUpdate(context, details),
               child: new Transform(
                 transform:
                     new Matrix4.diagonal3(new v3.Vector3(_zoom, _zoom, _zoom)),

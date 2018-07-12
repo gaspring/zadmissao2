@@ -9,7 +9,7 @@ dependencies:
   shared_preferences: '0.4.1'
   masked_text: "^0.0.4"
   path_provider: 0.3.0
-  firebase_messaging: "^1.0.3"
+  # firebase_messaging: "^1.0.3"
   image: "^2.0.4"
 
   # The following adds the Cupertino Icons font to your application.

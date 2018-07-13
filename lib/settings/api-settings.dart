@@ -1,5 +1,5 @@
 class ApiSettings{
-  // // DEV
+  // DEV
   static String ENDPOINT = "http://192.168.30.61:6001/apis";
   static String ENDPOINT_NO_API = "http://192.168.30.61:6001";
 

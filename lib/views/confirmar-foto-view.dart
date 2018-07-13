@@ -23,6 +23,76 @@ class _ConfirmarFotoState extends State<ConfirmarFotoView> {
 
   FileService _fileService;
   DialogUtils _dialog;
+
+  @override
+  void initState() {
+    _image = new File(widget.path);
+    _fileService = new FileService();
+    _dialog = new DialogUtils(context);
+
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      appBar: new AppBar(
+        title: new Text("Confirmar Foto"),
+      ),
+      body: new Stack(
+        children: <Widget>[
+          new DragImage(Offset(0.0, 0.0), _image),
+          Positioned(
+            bottom: 0.0,
+            child: new Container(
+                width: 370.0,
+                child: new RaisedButton(
+                  color: Colors.amber,
+                  onPressed: _onPress,
+                  child: new Text("Confirmar"),
+                )),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _onPress() async {
+    _dialog.showProgressDialog();
+
+    await _fileService.uploadFile(
+        new AtualizarDocumentoPreAdmissaoInput(
+            documento: widget.documento.key,
+            idPreAdmissao: widget.documento.idPreAdmissaoApp),
+        _image,
+        widget.documento.dependenteOuAdmissao);
+    _dialog.dismiss();
+
+    widget.documento.key = widget.documento.key.replaceAll("VERSO", "");
+
+    if (widget.verso == "Frente") {
+      Navigator.pop(context);
+      Navigator.pop(context, "doneSendingPhotoToServer-Frente");
+      Navigator.pop(context);
+    } else if (widget.verso == "Verso") {
+      Navigator.pop(context);
+      Navigator.pop(context, "doneSendingPhotoToServer-Verso");
+      Navigator.pop(context);
+    }
+  }
+}
+
+class DragImage extends StatefulWidget {
+  final Offset position;
+  final File image;
+
+  DragImage(this.position, this.image);
+
+  @override
+  DragImagaState createState() => DragImagaState();
+}
+
+class DragImagaState extends State<DragImage> {
   double _zoom;
   double _previousZoom;
   Offset _startingFocalPoint;
@@ -30,19 +100,59 @@ class _ConfirmarFotoState extends State<ConfirmarFotoView> {
   Offset _offset;
   bool _scaleEnable;
   bool _doubleTapEnable;
+  Offset _position;
+  File _image;
 
   @override
   void initState() {
-    _image = new File(widget.path);
-    _fileService = new FileService();
-    _dialog = new DialogUtils(context);
+    super.initState();
     _zoom = 1.0;
     _previousZoom = null;
     _offset = Offset.zero;
     _scaleEnable = true;
     _doubleTapEnable = true;
+    _position = widget.position;
+    _image = widget.image;
+  }
 
-    super.initState();
+  @override
+  Widget build(BuildContext context) {
+    return new Positioned(
+      left: _position.dx,
+      top: _position.dy,
+      child: Draggable(
+          child: new Container(
+            child: new Container(
+              padding: const EdgeInsets.all(8.0),
+              width: 360.0,
+              height: 530.0,
+              child: new GestureDetector(
+                onScaleStart: _scaleEnable ? _handleScaleStart : null,
+                onScaleUpdate: _scaleEnable ? _handleScaleUpdate : null,
+                onScaleEnd: (ScaleEndDetails details) {
+                  _previousZoom = null;
+                },
+                onDoubleTap: _doubleTapEnable ? _handleScaleReset : null,
+                child: new Transform(
+                  transform: new Matrix4.diagonal3(
+                      new v3.Vector3(_zoom, _zoom, _zoom)),
+                  alignment: FractionalOffset.center,
+                  child: new Image.file(_image),
+                ),
+              ),
+            ),
+          ),
+          onDraggableCanceled: (velocity, offset) {
+            setState(() {
+              _position = offset;
+            });
+          },
+          feedback: Container(
+            width: 1.0,
+            height: 1.0,
+            child: new Image.file(_image),
+          )),
+    );
   }
 
   void _handleScaleStart(ScaleStartDetails details) {
@@ -66,71 +176,7 @@ class _ConfirmarFotoState extends State<ConfirmarFotoView> {
     setState(() {
       _zoom = 1.0;
       _offset = Offset.zero;
+      _position = Offset.zero;
     });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Text("Confirmar Foto"),
-      ),
-      body: new Container(
-        padding: const EdgeInsets.all(8.0),
-        child: new ListView(
-          shrinkWrap: true,
-          children: <Widget>[
-            new GestureDetector(
-              onScaleStart: _scaleEnable ? _handleScaleStart : null,
-              onScaleUpdate: _scaleEnable ? _handleScaleUpdate : null,
-              onScaleEnd: (ScaleEndDetails details) {
-                _previousZoom = null;
-              },
-              onDoubleTap: _doubleTapEnable ? _handleScaleReset : null,
-              child: new Transform(
-                transform:
-                    new Matrix4.diagonal3(new v3.Vector3(_zoom, _zoom, _zoom)),
-                alignment: FractionalOffset.center,
-                child: new Image.file(_image),
-              ),
-            ),
-            // new Image.file(compressImage(_image)),
-            new Row(
-              children: <Widget>[
-                new Expanded(
-                    child: new RaisedButton(
-                  color: Colors.amber,
-                  onPressed: _onPress,
-                  child: new Text("Confirmar"),
-                ))
-              ],
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-  void _onPress() async {
-    _dialog.showProgressDialog();
-    await _fileService.uploadFile(
-        new AtualizarDocumentoPreAdmissaoInput(
-            documento: widget.documento.key,
-            idPreAdmissao: widget.documento.idPreAdmissaoApp),
-        _image,
-        widget.documento.dependenteOuAdmissao);
-    _dialog.dismiss();
-
-    widget.documento.key = widget.documento.key.replaceAll("VERSO", "");
-
-    if (widget.verso == "Frente") {
-      Navigator.pop(context);
-      Navigator.pop(context, "doneSendingPhotoToServer-Frente");
-      Navigator.pop(context);
-    } else if (widget.verso == "Verso") {
-      Navigator.pop(context);
-      Navigator.pop(context, "doneSendingPhotoToServer-Verso");
-      Navigator.pop(context);
-    }
   }
 }

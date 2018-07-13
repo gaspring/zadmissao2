@@ -8,6 +8,7 @@ import 'package:zadmissao/api/vaga/documento-viewmodel.dart';
 import 'package:zadmissao/views/confirmar-foto-view.dart';
 import 'package:image/image.dart' as Im;
 import 'package:zadmissao/utils/dialog-utils.dart';
+import 'package:flutter/services.dart';
 
 class CameraView extends StatefulWidget {
   DocumentoViewModel documento;
@@ -26,14 +27,14 @@ class _CameraViewState extends State<CameraView> {
 
   Widget _body;
 
-  DialogUtils _loading;
+  DialogUtils _dialog;
 
   @override
   void initState() {
     super.initState();
     _initCamera();
     _body = new Container();
-    _loading = new DialogUtils(context);
+    _dialog = new DialogUtils(context);
   }
 
   void _initCamera() async {
@@ -86,16 +87,37 @@ class _CameraViewState extends State<CameraView> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return _body;
   }
 
   String timestamp() => new DateTime.now().millisecondsSinceEpoch.toString();
 
+  // void _onTakePictureButtonPressed() {
+  //    _dialog.showProgressDialog();
+
+  //   _takePicture().then((filePath) async {
+  //   var resizedFile = await compressImage(filePath);
+
+  //   print(filePath);
+
+  //   if (resizedFile != null) _dialog.dismiss();
+
+  //   _transit(new ConfirmarFotoView(
+  //       path: resizedFile, documento: widget.documento, verso: widget.verso));
+  // });
+  // }
+
   Future _takePicture() async {
     if (!_cameraController.value.isInitialized) {
       return null;
     }
-    _loading.showProgressDialog();
+
+    _dialog.showProgressDialog();
+
     final Directory extDir = await getApplicationDocumentsDirectory();
     final String dirPath = '${extDir.path}/Pictures';
     await new Directory(dirPath).create(recursive: true);
@@ -111,21 +133,24 @@ class _CameraViewState extends State<CameraView> {
       return null;
     }
 
-    final resizedFile = compressImage(filePath);
+    var resizedFile = await compressImage(filePath);
 
-    if (resizedFile != null) _loading.dismiss();
+    if (resizedFile != null) _dialog.dismiss();
 
     _transit(new ConfirmarFotoView(
         path: resizedFile, documento: widget.documento, verso: widget.verso));
   }
 
-  String compressImage(String filePath) {
-    Im.Image image = Im.decodeImage(new File(filePath).readAsBytesSync());
+  Future<String> compressImage(String filePath) async {
+    Im.Image image = Im.decodeImage(await new File(filePath).readAsBytes());
     Im.Image compressedImg = Im.copyResize(image, 1024);
 
-    var resized = new File(filePath)
-      ..writeAsBytesSync(Im.encodeJpg(compressedImg, quality: 75));
-    return resized.path;
+    var resized = new File(filePath);
+
+    var newImage =
+        await resized.writeAsBytes(Im.encodeJpg(compressedImg, quality: 75));
+
+    return newImage.path;
   }
 
   void _transit(Widget widget) {

@@ -241,14 +241,14 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          buildIconColumn(doc.icon, 'Frente'),
-          buildIconColumn(doc.iconVerse, 'Verso')
+          _buildIconColumn(doc.icon, 'Frente'),
+          _buildIconColumn(doc.iconVerse, 'Verso')
         ],
       ),
     );
   }
 
-  Column buildIconColumn(Icon icon, String label) {
+  Column _buildIconColumn(Icon icon, String label) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,

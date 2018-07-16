@@ -27,7 +27,6 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "br.com.zellar.zadmissao"
         minSdkVersion 21
         targetSdkVersion 27
@@ -57,4 +56,4 @@ dependencies {
     compile 'com.google.firebase:firebase-core:15.0.2'
 }
 
-apply plugin: 'com.google.gms.google-services'
+//apply plugin: 'com.google.gms.google-services'

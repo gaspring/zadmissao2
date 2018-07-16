@@ -9,6 +9,7 @@ import 'package:zadmissao/views/confirmar-foto-view.dart';
 import 'package:image/image.dart' as Im;
 import 'package:zadmissao/utils/dialog-utils.dart';
 import 'package:flutter/services.dart';
+import 'dart:isolate';
 
 class CameraView extends StatefulWidget {
   DocumentoViewModel documento;
@@ -27,6 +28,8 @@ class _CameraViewState extends State<CameraView> {
 
   Widget _body;
 
+  DocumentoViewModel doc;
+
   DialogUtils _dialog;
 
   @override
@@ -35,6 +38,7 @@ class _CameraViewState extends State<CameraView> {
     _initCamera();
     _body = new Container();
     _dialog = new DialogUtils(context);
+    doc = widget.documento;
   }
 
   void _initCamera() async {
@@ -49,28 +53,21 @@ class _CameraViewState extends State<CameraView> {
 
       setState(() {
         _body = new Scaffold(
-          body: new Column(
+          appBar: new AppBar(
+            title: new Text(doc.nome)
+          ),
+          body: new Stack(
             children: <Widget>[
-              new Flexible(child: new CameraPreview(_cameraController)),
-              new Row(
-                children: <Widget>[
-                  new Expanded(
-                    child: new RaisedButton(
-                      padding: const EdgeInsets.all(4.0),
-                      color: Colors.amber,
-                      onPressed: () => Navigator.pop(context),
-                      child: new Text("Cancelar"),
-                    ),
-                  ),
-                  new Expanded(
-                    child: new RaisedButton(
-                      padding: const EdgeInsets.all(4.0),
-                      color: Colors.amber,
-                      onPressed: _takePicture,
-                      child: new Text("Tirar Foto"),
-                    ),
-                  )
-                ],
+              new Container(child: new CameraPreview(_cameraController)),
+              new Positioned(
+                left: 150.0,
+                bottom: 10.0,
+                child: new FloatingActionButton(
+                  backgroundColor: Colors.amber,
+                  elevation: 5.0,
+                  onPressed: _takePicture,
+                  child: new Icon(Icons.camera_alt),
+                ),
               ),
             ],
           ),
@@ -96,27 +93,12 @@ class _CameraViewState extends State<CameraView> {
 
   String timestamp() => new DateTime.now().millisecondsSinceEpoch.toString();
 
-  // void _onTakePictureButtonPressed() {
-  //    _dialog.showProgressDialog();
-
-  //   _takePicture().then((filePath) async {
-  //   var resizedFile = await compressImage(filePath);
-
-  //   print(filePath);
-
-  //   if (resizedFile != null) _dialog.dismiss();
-
-  //   _transit(new ConfirmarFotoView(
-  //       path: resizedFile, documento: widget.documento, verso: widget.verso));
-  // });
-  // }
-
   Future _takePicture() async {
     if (!_cameraController.value.isInitialized) {
       return null;
     }
 
-    _dialog.showProgressDialog();
+     _dialog.showProgressDialog();
 
     final Directory extDir = await getApplicationDocumentsDirectory();
     final String dirPath = '${extDir.path}/Pictures';

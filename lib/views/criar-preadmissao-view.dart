@@ -5,12 +5,15 @@ import 'package:zadmissao/api/vaga/pre-admissao-app-viewmodel.dart';
 import 'package:zadmissao/api/vaga/vaga-viewmodel.dart';
 import 'package:zadmissao/views/dependente-view.dart';
 import 'package:zadmissao/views/camera-view.dart';
+import 'package:zadmissao/views/main-view.dart';
 
 class CriarPreAdmissaoView extends StatefulWidget {
   final VagaViewModel vagaViewModel;
   final PreAdmissaoAppViewModel preAdmissaoAppViewModel;
+  bool isNew;
 
-  CriarPreAdmissaoView({this.vagaViewModel, this.preAdmissaoAppViewModel});
+  CriarPreAdmissaoView(
+      {this.vagaViewModel, this.preAdmissaoAppViewModel, this.isNew});
 
   @override
   State<StatefulWidget> createState() => new _CriarPreAdmissaoState();
@@ -133,7 +136,10 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: new AppBar(
+            leading: new IconButton(
+                icon: new Icon(Icons.close), onPressed: _backToAnaliseView),
             title: new Text("${widget.vagaViewModel.codigoVaga}"),
+            automaticallyImplyLeading: false,
             actions: <Widget>[
               new IconButton(
                   icon: new Icon(Icons.info), onPressed: _openInfoDialog),
@@ -330,6 +336,15 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
               title: new Text("Informação"),
               content: _buildDetalhes(),
             ));
+  }
+
+  void _backToAnaliseView() {
+    if (!widget.isNew) {
+      Navigator.pop(context);
+    } else {
+      Navigator.push(
+          context, new MaterialPageRoute(builder: (context) => new MainView()));
+    }
   }
 
   Icon _chooseIcons(String status) {

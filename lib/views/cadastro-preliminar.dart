@@ -132,9 +132,9 @@ class _CadastroPreliminarState extends State<CadastroPreliminarView> {
     if (res != null) {
       vaga.idPreAdmissao = res.idPreAdmissaoApp;
       _transit(new CriarPreAdmissaoView(
-        vagaViewModel: vaga,
-        preAdmissaoAppViewModel: new PreAdmissaoAppViewModel(),
-      ));
+          vagaViewModel: vaga,
+          preAdmissaoAppViewModel: new PreAdmissaoAppViewModel(),
+          isNew: true));
     } else {
       _dialog.showAlertDialog("Ops...", "Tente novamente", "ok", "");
     }

@@ -9,7 +9,7 @@ import 'package:zadmissao/views/confirmar-foto-view.dart';
 import 'package:image/image.dart' as Im;
 import 'package:zadmissao/utils/dialog-utils.dart';
 import 'package:flutter/services.dart';
-import 'dart:isolate';
+import 'package:image_picker/image_picker.dart';
 
 class CameraView extends StatefulWidget {
   DocumentoViewModel documento;
@@ -23,13 +23,10 @@ class CameraView extends StatefulWidget {
 
 class _CameraViewState extends State<CameraView> {
   List<CameraDescription> _cameras;
-
   CameraController _cameraController;
-
   Widget _body;
-
   DocumentoViewModel doc;
-
+  String verse;
   DialogUtils _dialog;
 
   @override
@@ -39,6 +36,7 @@ class _CameraViewState extends State<CameraView> {
     _body = new Container();
     _dialog = new DialogUtils(context);
     doc = widget.documento;
+    verse = widget.verso;
   }
 
   void _initCamera() async {
@@ -54,7 +52,11 @@ class _CameraViewState extends State<CameraView> {
       setState(() {
         _body = new Scaffold(
           appBar: new AppBar(
-            title: new Text(doc.nome)
+            title: new Text(doc.nome + ' - ' + verse),
+            actions: <Widget>[
+              new IconButton(
+                  icon: new Icon(Icons.collections), onPressed: _openGallery)
+            ],
           ),
           body: new Stack(
             children: <Widget>[
@@ -98,7 +100,7 @@ class _CameraViewState extends State<CameraView> {
       return null;
     }
 
-     _dialog.showProgressDialog();
+    _dialog.showProgressDialog();
 
     final Directory extDir = await getApplicationDocumentsDirectory();
     final String dirPath = '${extDir.path}/Pictures';
@@ -119,8 +121,8 @@ class _CameraViewState extends State<CameraView> {
 
     if (resizedFile != null) _dialog.dismiss();
 
-    _transit(new ConfirmarFotoView(
-        path: resizedFile, documento: widget.documento, verso: widget.verso));
+    _transit(
+        new ConfirmarFotoView(path: resizedFile, documento: doc, verso: verse));
   }
 
   Future<String> compressImage(String filePath) async {
@@ -133,6 +135,16 @@ class _CameraViewState extends State<CameraView> {
         await resized.writeAsBytes(Im.encodeJpg(compressedImg, quality: 75));
 
     return newImage.path;
+  }
+
+  void _openGallery() async {
+    File img = await ImagePicker.pickImage(source: ImageSource.gallery);
+    if (img != null) {
+      var resized = await compressImage(img.path);
+
+      _transit(
+          new ConfirmarFotoView(path: resized, documento: doc, verso: verse));
+    }
   }
 
   void _transit(Widget widget) {

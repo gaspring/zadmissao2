@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:zadmissao/api/file/atualizar-documento-preadmissao-input.dart';
@@ -6,13 +7,15 @@ import 'package:zadmissao/api/file/file-service.dart';
 import 'package:zadmissao/api/vaga/documento-viewmodel.dart';
 import 'package:zadmissao/utils/dialog-utils.dart';
 import 'package:vector_math/vector_math_64.dart' as v3;
+import 'package:image/image.dart' as Im;
 
 class ConfirmarFotoView extends StatefulWidget {
   DocumentoViewModel documento;
   String path;
   String verso;
+  bool camera;
 
-  ConfirmarFotoView({this.documento, this.path, this.verso});
+  ConfirmarFotoView({this.documento, this.path, this.verso, this.camera});
 
   @override
   State<StatefulWidget> createState() => new _ConfirmarFotoState();
@@ -70,14 +73,32 @@ class _ConfirmarFotoState extends State<ConfirmarFotoView> {
 
     widget.documento.key = widget.documento.key.replaceAll("VERSO", "");
 
-    if (widget.verso == "Frente") {
-      Navigator.pop(context);
-      Navigator.pop(context, "doneSendingPhotoToServer-Frente");
-      Navigator.pop(context);
-    } else if (widget.verso == "Verso") {
-      Navigator.pop(context);
-      Navigator.pop(context, "doneSendingPhotoToServer-Verso");
-      Navigator.pop(context);
+    _backToPreAdmissaoView();
+  }
+
+  void _backToPreAdmissaoView() {
+    if (widget.camera) {
+      if (widget.verso == "Frente") {
+        Navigator.pop(context);
+        Navigator.pop(context);
+        Navigator.pop(context, "doneSendingPhotoToServer-Frente");
+        Navigator.pop(context);
+      } else if (widget.verso == "Verso") {
+        Navigator.pop(context);
+        Navigator.pop(context);
+        Navigator.pop(context, "doneSendingPhotoToServer-Verso");
+        Navigator.pop(context);
+      }
+    } else {
+      if (widget.verso == "Frente") {
+        Navigator.pop(context);
+        Navigator.pop(context, "doneSendingPhotoToServer-Frente");
+        Navigator.pop(context);
+      } else if (widget.verso == "Verso") {
+        Navigator.pop(context);
+        Navigator.pop(context, "doneSendingPhotoToServer-Verso");
+        Navigator.pop(context);
+      }
     }
   }
 }

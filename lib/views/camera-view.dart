@@ -12,8 +12,8 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
 class CameraView extends StatefulWidget {
-  DocumentoViewModel documento;
-  String verso;
+  final DocumentoViewModel documento;
+  final String verso;
 
   CameraView({this.documento, this.verso});
 
@@ -22,9 +22,6 @@ class CameraView extends StatefulWidget {
 }
 
 class _CameraViewState extends State<CameraView> {
-  List<CameraDescription> _cameras;
-  CameraController _cameraController;
-  Widget _body;
   DocumentoViewModel doc;
   String verse;
   DialogUtils _dialog;
@@ -32,56 +29,9 @@ class _CameraViewState extends State<CameraView> {
   @override
   void initState() {
     super.initState();
-    _initCamera();
-    _body = new Container();
     _dialog = new DialogUtils(context);
     doc = widget.documento;
     verse = widget.verso;
-  }
-
-  void _initCamera() async {
-    _cameras = await availableCameras();
-    _cameraController =
-        new CameraController(_cameras[0], ResolutionPreset.medium);
-
-    _cameraController.initialize().then((_) {
-      if (!mounted) {
-        return;
-      }
-
-      setState(() {
-        _body = new Scaffold(
-          appBar: new AppBar(
-            title: new Text(doc.nome + ' - ' + verse),
-            actions: <Widget>[
-              new IconButton(
-                  icon: new Icon(Icons.collections), onPressed: _openGallery)
-            ],
-          ),
-          body: new Stack(
-            children: <Widget>[
-              new Container(child: new CameraPreview(_cameraController)),
-              new Positioned(
-                left: 150.0,
-                bottom: 10.0,
-                child: new FloatingActionButton(
-                  backgroundColor: Colors.amber,
-                  elevation: 5.0,
-                  onPressed: _takePicture,
-                  child: new Icon(Icons.camera_alt),
-                ),
-              ),
-            ],
-          ),
-        );
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    _cameraController.dispose();
-    super.dispose();
   }
 
   @override
@@ -90,61 +40,89 @@ class _CameraViewState extends State<CameraView> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    return _body;
+    return new Scaffold(
+      appBar: new AppBar(
+        title: new Text(doc.nome + ' - ' + verse),
+      ),
+      body: new Stack(
+        children: <Widget>[
+          new Container(
+            padding: const EdgeInsets.all(30.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                new Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      new Text("Tire uma foto ou escolha uma foto da galeria",
+                          textAlign: TextAlign.center,
+                          overflow: TextOverflow.clip,
+                          style: const TextStyle(fontSize: 25.0)),
+                      new RaisedButton(
+                        child: new Text("Foto",
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 22.0)),
+                        color: Colors.amber,
+                        onPressed: _takePicture,
+                      ),
+                      new RaisedButton(
+                        child: new Text("Galeria de imagens",
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 22.0)),
+                        color: Colors.amber,
+                        onPressed: _openGallery,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   String timestamp() => new DateTime.now().millisecondsSinceEpoch.toString();
 
-  Future _takePicture() async {
-    if (!_cameraController.value.isInitialized) {
-      return null;
+  void _takePicture() async {
+    File photo = await ImagePicker.pickImage(
+        source: ImageSource.camera, maxHeight: 640.0, maxWidth: 960.0);
+
+    if (photo != null) {
+      // var resizedPhoto = await compressImage(photo.path);
+      // if (resizedPhoto != null)
+      _transit(new ConfirmarFotoView(
+          path: photo.path, documento: doc, verso: verse, camera: true));
     }
+  }
 
-    _dialog.showProgressDialog();
-
-    final Directory extDir = await getApplicationDocumentsDirectory();
-    final String dirPath = '${extDir.path}/Pictures';
-    await new Directory(dirPath).create(recursive: true);
-    final String filePath = '$dirPath/${timestamp()}.jpg';
-
-    if (_cameraController.value.isTakingPicture) {
-      return null;
+  void _openGallery() async {
+    File img = await ImagePicker.pickImage(source: ImageSource.gallery);
+    if (img != null) {
+      // var resized = await compressImage(img.path);
+      // if (resized != null)
+      _transit(
+          new ConfirmarFotoView(path: img.path, documento: doc, verso: verse, camera: false));
     }
-
-    try {
-      await _cameraController.takePicture(filePath);
-    } on CameraException catch (e) {
-      return null;
-    }
-
-    var resizedFile = await compressImage(filePath);
-
-    if (resizedFile != null) _dialog.dismiss();
-
-    _transit(
-        new ConfirmarFotoView(path: resizedFile, documento: doc, verso: verse));
   }
 
   Future<String> compressImage(String filePath) async {
     Im.Image image = Im.decodeImage(await new File(filePath).readAsBytes());
     Im.Image compressedImg = Im.copyResize(image, 1024);
 
-    var resized = new File(filePath);
+    final Directory extDir = await getApplicationDocumentsDirectory();
+    final String dirPath = '${extDir.path}/Pictures';
+    await new Directory(dirPath).create(recursive: true);
+
+    var resized = new File('$dirPath/${timestamp()}.jpg');
 
     var newImage =
         await resized.writeAsBytes(Im.encodeJpg(compressedImg, quality: 75));
 
     return newImage.path;
-  }
-
-  void _openGallery() async {
-    File img = await ImagePicker.pickImage(source: ImageSource.gallery);
-    if (img != null) {
-      var resized = await compressImage(img.path);
-
-      _transit(
-          new ConfirmarFotoView(path: resized, documento: doc, verso: verse));
-    }
   }
 
   void _transit(Widget widget) {

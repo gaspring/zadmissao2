@@ -155,6 +155,7 @@ class _AdicionarDependenteViewState extends State<AdicionarDependenteView> {
 
     if (!_validarNome(nome)) {
       _dialog.showAlertDialog("Ops...", "Digite o nome e sobrenome", "ok");
+      return;
     }
 
     if (!_validarGraParentesco(grauParentesco)) {

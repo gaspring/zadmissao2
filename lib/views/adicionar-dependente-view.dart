@@ -149,13 +149,12 @@ class _AdicionarDependenteViewState extends State<AdicionarDependenteView> {
     return true;
   }
 
-    void _submit() async {
+  void _submit() async {
     var nome = _textEditingControllerNome.text;
     var grauParentesco = _grauParentesco;
 
     if (!_validarNome(nome)) {
       _dialog.showAlertDialog("Ops...", "Digite o nome e sobrenome", "ok");
-    
     }
 
     if (!_validarGraParentesco(grauParentesco)) {
@@ -169,10 +168,11 @@ class _AdicionarDependenteViewState extends State<AdicionarDependenteView> {
             nome: nome,
             grauParentesco: grauParentesco));
 
+    _dialog.dismiss();
+
     if (dependente != null) {
-      _dialog.dismiss();
-      Navigator.push(context, new MaterialPageRoute(builder: (context)=> new DependenteDocumentosView(preAdmissaoAppDependente: dependente, isNew: true)));
-    } else {
+      //   Navigator.push(context, new MaterialPageRoute(builder: (context)=> new DependenteDocumentosView(preAdmissaoAppDependente: dependente, isNew: true)));
+      // } else {
       _dialog.showAlertDialog("Ops...", "Tente novamente", "ok");
     }
   }

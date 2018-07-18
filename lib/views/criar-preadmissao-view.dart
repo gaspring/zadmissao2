@@ -339,11 +339,13 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
   }
 
   void _backToAnaliseView() {
-    if (!widget.isNew) {
+    if (widget.isNew != null && widget.isNew) {
       Navigator.pop(context);
-    } else {
+      Navigator.pop(context);
       Navigator.push(
           context, new MaterialPageRoute(builder: (context) => new MainView()));
+    } else {
+      Navigator.pop(context);
     }
   }
 

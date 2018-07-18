@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:zadmissao/api/file/atualizar-documento-preadmissao-input.dart';
@@ -7,7 +6,6 @@ import 'package:zadmissao/api/file/file-service.dart';
 import 'package:zadmissao/api/vaga/documento-viewmodel.dart';
 import 'package:zadmissao/utils/dialog-utils.dart';
 import 'package:vector_math/vector_math_64.dart' as v3;
-import 'package:image/image.dart' as Im;
 
 class ConfirmarFotoView extends StatefulWidget {
   DocumentoViewModel documento;
@@ -40,7 +38,7 @@ class _ConfirmarFotoState extends State<ConfirmarFotoView> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("Confirmar Foto"),
+        title: new Text(widget.documento.nome + " - " + widget.verso),
       ),
       body: new Stack(
         children: <Widget>[
@@ -80,11 +78,9 @@ class _ConfirmarFotoState extends State<ConfirmarFotoView> {
     if (widget.camera) {
       if (widget.verso == "Frente") {
         Navigator.pop(context);
-        Navigator.pop(context);
         Navigator.pop(context, "doneSendingPhotoToServer-Frente");
         Navigator.pop(context);
       } else if (widget.verso == "Verso") {
-        Navigator.pop(context);
         Navigator.pop(context);
         Navigator.pop(context, "doneSendingPhotoToServer-Verso");
         Navigator.pop(context);

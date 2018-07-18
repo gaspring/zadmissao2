@@ -7,7 +7,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:zadmissao/api/vaga/documento-viewmodel.dart';
 import 'package:zadmissao/views/confirmar-foto-view.dart';
 import 'package:image/image.dart' as Im;
-import 'package:zadmissao/utils/dialog-utils.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -24,12 +23,10 @@ class CameraView extends StatefulWidget {
 class _CameraViewState extends State<CameraView> {
   DocumentoViewModel doc;
   String verse;
-  DialogUtils _dialog;
 
   @override
   void initState() {
     super.initState();
-    _dialog = new DialogUtils(context);
     doc = widget.documento;
     verse = widget.verso;
   }

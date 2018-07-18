@@ -38,9 +38,7 @@ class _DependenteState extends State<DependenteView> {
         title: new Text("${widget.documento.nome}"),
         actions: <Widget>[
           new IconButton(
-              icon: new Icon(Icons.add),
-              onPressed: () => _transit(new AdicionarDependenteView(
-                  idPreAdmissaoApp: widget.documento.idPreAdmissaoApp)))
+              icon: new Icon(Icons.add), onPressed: _adicionarNovoDependente)
         ],
       ),
       body: new Container(
@@ -76,7 +74,7 @@ class _DependenteState extends State<DependenteView> {
                 child: new ListTile(
                   onTap: () {
                     _transit(new DependenteDocumentosView(
-                        preAdmissaoAppDependente: dependente));
+                        preAdmissaoAppDependente: dependente, isNew: false));
                   },
                   title: new Column(
                     mainAxisSize: MainAxisSize.min,
@@ -100,7 +98,7 @@ class _DependenteState extends State<DependenteView> {
     );
   }
 
-  void _listarDependentes() async {
+  _listarDependentes() async {
     _dialog.showProgressDialog();
     var lista = await _vagaService
         .listarDependentesPreAdmissaoApp(widget.documento.idPreAdmissaoApp);
@@ -115,7 +113,26 @@ class _DependenteState extends State<DependenteView> {
     }
   }
 
-  void _transit(Widget widget) {
+  void _adicionarNovoDependente() async {
+    final jaAdicionou = await Navigator.push(
+        context,
+        new MaterialPageRoute(
+            builder: (context) => new AdicionarDependenteView(
+                idPreAdmissaoApp: widget.documento.idPreAdmissaoApp)));
+
+    if (jaAdicionou == "loadLista") {
+      _dialog.showProgressDialog();
+      var updated = await _listarDependentes();
+      if (updated != null) {
+        setState(() {
+          _dependentes = updated;
+        });
+      }
+      _dialog.dismiss();
+    }
+  }
+
+  _transit(Widget widget) {
     Navigator.push(
       context,
       new MaterialPageRoute(builder: (context) => widget),

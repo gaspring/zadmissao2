@@ -65,6 +65,7 @@ class _MainViewState extends State<MainView> {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text("Bem vindo Gestor"),
+        automaticallyImplyLeading: false,
       ),
       bottomNavigationBar: new BottomNavigationBar(
           onTap: _onTap,

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:zadmissao/api/vaga/preadmissao-app-dependente-input.dart';
 import 'package:zadmissao/api/vaga/vaga-service.dart';

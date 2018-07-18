@@ -98,7 +98,7 @@ class _AdicionarDependenteViewState extends State<AdicionarDependenteView> {
         maxLength: 50,
         keyboardType: TextInputType.text,
         decoration:
-            const InputDecoration(hintText: "Qual o nome do dependente?"),
+        const InputDecoration(hintText: "Qual o nome do dependente?"),
         controller: _textEditingControllerNome,
         autofocus: true,
       ),
@@ -155,34 +155,25 @@ class _AdicionarDependenteViewState extends State<AdicionarDependenteView> {
 
     if (!_validarNome(nome)) {
       _dialog.showAlertDialog("Ops...", "Digite o nome e sobrenome", "ok");
-    } else {
-      if (!_validarGraParentesco(grauParentesco)) {
-        _dialog.showAlertDialog(
-            "Ops...", "Selecione o grau de parentesco", "ok");
-      } else {
-        _dialog.showProgressDialog();
-        var dependente = await _vagaService.adicionarDependente(
-            new PreAdmissaoAppDependenteInput(
-                idPreAdmissaoApp: widget.idPreAdmissaoApp,
-                nome: nome,
-                grauParentesco: grauParentesco));
-        _dialog.dismiss();
-
-        if (dependente == null) {
-          _dialog.showAlertDialog("Ops...", "Tente novamente", "ok");
-        } else {
-          _transit(new DependenteDocumentosView(
-            preAdmissaoAppDependente: dependente,
-          ));
-        }
-      }
     }
-  }
 
-  void _transit(Widget widget) {
-    Navigator.push(
-      context,
-      new MaterialPageRoute(builder: (context) => widget),
-    );
+    if (!_validarGraParentesco(grauParentesco)) {
+      _dialog.showAlertDialog("Ops...", "Selecione o grau de parentesco", "ok");
+    }
+
+    _dialog.showProgressDialog();
+
+    var dependente = await _vagaService.adicionarDependente(
+        new PreAdmissaoAppDependenteInput(
+            idPreAdmissaoApp: widget.idPreAdmissaoApp,
+            nome: nome,
+            grauParentesco: grauParentesco));
+
+    if (dependente != null) {
+      _dialog.dismiss();
+      Navigator.push(context, new MaterialPageRoute(builder: (context)=> new DependenteDocumentosView(preAdmissaoAppDependente: dependente, isNew: true)));
+    } else {
+      _dialog.showAlertDialog("Ops...", "Tente novamente", "ok");
+    }
   }
 }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:zadmissao/api/vaga/preadmissao-app-dependente-input.dart';
 import 'package:zadmissao/api/vaga/vaga-service.dart';
 import 'package:zadmissao/utils/dialog-utils.dart';
-// import 'package:zadmissao/views/dependente-documentos-view.dart';
 
 class AdicionarDependenteView extends StatefulWidget {
   String idPreAdmissaoApp;
@@ -149,7 +148,7 @@ class _AdicionarDependenteViewState extends State<AdicionarDependenteView> {
     return true;
   }
 
-      void _submit() {
+  void _submit() {
     var nome = _textEditingControllerNome.text;
     var grauParentesco = _grauParentesco;
 
@@ -174,32 +173,4 @@ class _AdicionarDependenteViewState extends State<AdicionarDependenteView> {
       _dialog.showAlertDialog("Ops...", "Tente novamente", "ok");
     }
   }
-
-  //   void _submit() async {
-  //   var nome = _textEditingControllerNome.text;
-  //   var grauParentesco = _grauParentesco;
-
-  //   if (!_validarNome(nome)) {
-  //     _dialog.showAlertDialog("Ops...", "Digite o nome e sobrenome", "ok");
-    
-  //   }
-
-  //   if (!_validarGraParentesco(grauParentesco)) {
-  //     _dialog.showAlertDialog("Ops...", "Selecione o grau de parentesco", "ok");
-  //   }
-
-  //   _dialog.showProgressDialog();
-  //   var dependente = await _vagaService.adicionarDependente(
-  //       new PreAdmissaoAppDependenteInput(
-  //           idPreAdmissaoApp: widget.idPreAdmissaoApp,
-  //           nome: nome,
-  //           grauParentesco: grauParentesco));
-
-  //   if (dependente != null) {
-  //     _dialog.dismiss();
-  //     Navigator.push(context, new MaterialPageRoute(builder: (context)=> new DependenteDocumentosView(preAdmissaoAppDependente: dependente, isNew: true)));
-  //   } else {
-  //     _dialog.showAlertDialog("Ops...", "Tente novamente", "ok");
-  //   }
-  // }
 }

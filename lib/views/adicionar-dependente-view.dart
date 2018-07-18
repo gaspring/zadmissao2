@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:zadmissao/api/vaga/preadmissao-app-dependente-input.dart';
 import 'package:zadmissao/api/vaga/vaga-service.dart';
 import 'package:zadmissao/utils/dialog-utils.dart';
-import 'package:zadmissao/views/dependente-documentos-view.dart';
+// import 'package:zadmissao/views/dependente-documentos-view.dart';
 
 class AdicionarDependenteView extends StatefulWidget {
   String idPreAdmissaoApp;

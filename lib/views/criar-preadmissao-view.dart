@@ -39,6 +39,11 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
         key: "CPF",
         icon: _chooseIcons(widget.preAdmissaoAppViewModel.statusDocumentoCPF)));
     _documentos.add(new DocumentoViewModel(
+        nome: "Comprovante de residência",
+        key: "ENDERECO",
+        temVerso: true,
+        icon: _chooseIcons(widget.preAdmissaoAppViewModel.statusRG)));
+    _documentos.add(new DocumentoViewModel(
         nome: "Título de eleitor",
         key: "TITULODEELEITOR",
         icon: _chooseIcons(
@@ -139,7 +144,14 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
               new IconButton(
                   icon: new Icon(Icons.info), onPressed: _openInfoDialog),
             ]),
-        body: new Container(child: _buildDocumentos()));
+        body: new Container(
+            child: new Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            _buildDetalhes(),
+            new Expanded(child: _buildDocumentos())
+          ],
+        )));
   }
 
   Widget _buildDetalhes() {
@@ -235,14 +247,14 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          buildIconColumn(doc.icon, 'Frente'),
-          buildIconColumn(doc.iconVerse, 'Verso')
+          _buildIconColumn(doc.icon, 'Frente'),
+          _buildIconColumn(doc.iconVerse, 'Verso')
         ],
       ),
     );
   }
 
-  Column buildIconColumn(Icon icon, String label) {
+  Column _buildIconColumn(Icon icon, String label) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
@@ -330,8 +342,7 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
     if (widget.isNew != null && widget.isNew) {
       Navigator.pop(context);
       Navigator.pop(context);
-      Navigator.push(
-          context, new MaterialPageRoute(builder: (context) => new MainView()));
+      Navigator.pushReplacementNamed(context, MainView.ROUTE);
     } else {
       Navigator.pop(context);
     }

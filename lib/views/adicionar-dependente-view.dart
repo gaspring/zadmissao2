@@ -98,7 +98,7 @@ class _AdicionarDependenteViewState extends State<AdicionarDependenteView> {
         maxLength: 50,
         keyboardType: TextInputType.text,
         decoration:
-            const InputDecoration(hintText: "Qual o nome do dependente?"),
+        const InputDecoration(hintText: "Qual o nome do dependente?"),
         controller: _textEditingControllerNome,
         autofocus: true,
       ),

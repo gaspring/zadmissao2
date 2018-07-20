@@ -342,8 +342,7 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
     if (widget.isNew != null && widget.isNew) {
       Navigator.pop(context);
       Navigator.pop(context);
-      Navigator.push(
-          context, new MaterialPageRoute(builder: (context) => new MainView()));
+      Navigator.pushReplacementNamed(context, MainView.ROUTE);
     } else {
       Navigator.pop(context);
     }

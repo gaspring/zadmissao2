@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:zadmissao/views/cadastro-preliminar-inicial.dart';
-import 'package:zadmissao/views/cadastro-preliminar.dart';
-import 'package:zadmissao/views/criar-preadmissao-view.dart';
 import 'package:zadmissao/views/em-analise-view.dart';
 import 'package:zadmissao/views/lista-preadmissao-view.dart';
 // import 'package:firebase_messaging/firebase_messaging.dart';
@@ -64,8 +62,7 @@ class _MainViewState extends State<MainView> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("Bem vindo Gestor"),
-        automaticallyImplyLeading: false,
+        title: new Text("Bem vindo Gestor")
       ),
       bottomNavigationBar: new BottomNavigationBar(
           onTap: _onTap,

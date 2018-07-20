@@ -15,12 +15,10 @@ class DependenteDocumentosView extends StatefulWidget {
 
 class _DependenteDocumentoState extends State<DependenteDocumentosView> {
   List<DocumentoViewModel> _documentos;
-  bool _isNew;
 
   @override
   void initState() {
     _documentos = new List<DocumentoViewModel>();
-    _isNew = true;
 
     _documentos.add(new DocumentoViewModel(
         nome: "RG",
@@ -64,8 +62,7 @@ class _DependenteDocumentoState extends State<DependenteDocumentosView> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-          title:
-              new Text(widget.preAdmissaoAppDependente.nome),
+          title: new Text(widget.preAdmissaoAppDependente.nome),
           automaticallyImplyLeading: false,
           leading: new IconButton(
               icon: new Icon(Icons.close), onPressed: _finalizarEnvioDocs)),

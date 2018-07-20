@@ -162,7 +162,7 @@ class _AdicionarDependenteViewState extends State<AdicionarDependenteView> {
     }
 
     _dialog.showProgressDialog();
-
+    
     var dependente = await _vagaService.adicionarDependente(
         new PreAdmissaoAppDependenteInput(
             idPreAdmissaoApp: widget.idPreAdmissaoApp,

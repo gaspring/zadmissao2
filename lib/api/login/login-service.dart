@@ -37,6 +37,7 @@ class LoginService {
       }else{
         _dialog = new DialogUtils(context);
         _dialog.closeApp("Falha na conexão", "A internet parece instável. Por favor, tente novamente mais tarde.", "fechar");
+        return null;
       }
     } catch (e) {
       return null;

@@ -94,7 +94,7 @@ class _LoginViewState extends State<LoginView> {
         password: _textFieldPasswordConstroller.text);
 
     _dialog.showProgressDialog();
-    var r = await _loginService.login(vm);
+    var r = await _loginService.login(vm,context);
     _dialog.dismiss();
 
     if (r != null) {

@@ -144,9 +144,27 @@ class VagaService {
 
       var responseJson = json.decode(response.body);
 
-      var l = (responseJson as List).map((x) => new PreAdmissaoAppDependenteViewModel.fromJson(x));
+      var l = (responseJson as List)
+          .map((x) => new PreAdmissaoAppDependenteViewModel.fromJson(x));
 
       return l.toList();
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future finalizarPreAdmissaoApp(String idPreAdmissaoApp) async {
+    try {
+      var preferences = await SharedPreferences.getInstance();
+
+      var url = "$_URL/finalizar-pre-admissao-app/$idPreAdmissaoApp";
+
+      _header[HttpHeaders.AUTHORIZATION] =
+          "Bearer ${preferences.get(ApiSettings.API_TOKEN)}";
+
+      var response = await http.get(url, headers: _header);
+
+      return response.statusCode;
     } catch (e) {
       return null;
     }

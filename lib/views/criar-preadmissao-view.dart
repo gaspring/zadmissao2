@@ -6,6 +6,7 @@ import 'package:zadmissao/api/vaga/vaga-viewmodel.dart';
 import 'package:zadmissao/views/dependente-view.dart';
 import 'package:zadmissao/views/camera-view.dart';
 import 'package:zadmissao/views/main-view.dart';
+import 'package:zadmissao/api/vaga/vaga-service.dart';
 
 class CriarPreAdmissaoView extends StatefulWidget {
   final VagaViewModel vagaViewModel;
@@ -21,10 +22,12 @@ class CriarPreAdmissaoView extends StatefulWidget {
 
 class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
   List<DocumentoViewModel> _documentos;
+  VagaService _vagaService;
 
   @override
   void initState() {
     _documentos = new List<DocumentoViewModel>();
+    _vagaService = new VagaService();
 
     _documentos.add(new DocumentoViewModel(
         nome: "Dependentes", key: "DEPENDENTES", icon: new Icon(Icons.group)));
@@ -128,6 +131,22 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
         icon: _chooseIcons(widget.preAdmissaoAppViewModel.statusDRTVig),
         iconVerse:
             _chooseIcons(widget.preAdmissaoAppViewModel.statusDRTVigVerso)));
+    _documentos.add(new DocumentoViewModel(
+        nome: "Ficha de registro",
+        key: "FICHAREGISTRO",
+        temVerso: true,
+        icon: _chooseIcons(widget.preAdmissaoAppViewModel.statusFichaRegistro),
+        iconVerse: _chooseIcons(
+            widget.preAdmissaoAppViewModel.statusFichaRegistroVerso)));
+    _documentos.add(new DocumentoViewModel(
+        nome: "Solicitação de Vale Transporte",
+        key: "FORMULARIOVT",
+        icon: _chooseIcons(widget.preAdmissaoAppViewModel.statusFormularioVT)));
+    _documentos.add(new DocumentoViewModel(
+        nome: "Solicitação de uniforme",
+        key: "SOLICITACAOUNIFORME",
+        icon: _chooseIcons(
+            widget.preAdmissaoAppViewModel.statusSolicitacaoUniforme)));
 
     super.initState();
   }
@@ -338,13 +357,18 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
             ));
   }
 
-  void _backToAnaliseView() {
-    if (widget.isNew != null && widget.isNew) {
-      Navigator.pop(context);
-      Navigator.pop(context);
-      Navigator.pushReplacementNamed(context, MainView.ROUTE);
-    } else {
-      Navigator.pop(context);
+  void _backToAnaliseView() async {
+    var finalizarProcesso = await _vagaService
+        .finalizarPreAdmissaoApp(widget.vagaViewModel.idPreAdmissao);
+
+    if (finalizarProcesso == 200) {
+      if (widget.isNew != null && widget.isNew) {
+        Navigator.pop(context);
+        Navigator.pop(context);
+        Navigator.pushReplacementNamed(context, MainView.ROUTE);
+      } else {
+        Navigator.pop(context);
+      }
     }
   }
 

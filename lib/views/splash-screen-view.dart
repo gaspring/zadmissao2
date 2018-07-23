@@ -6,6 +6,7 @@ import 'package:zadmissao/api/login/login-viewmodel.dart';
 import 'package:zadmissao/settings/api-settings.dart';
 import 'package:zadmissao/views/login-view.dart';
 import 'package:zadmissao/views/main-view.dart';
+import 'dart:async';
 
 class SplashScreenView extends StatefulWidget {
   @override
@@ -53,7 +54,7 @@ class _SplashScreenState extends State<SplashScreenView> {
       }
 
       var auth = await _loginService
-          .login(new LoginViewModel(email: username, password: password));
+          .login(new LoginViewModel(email: username, password: password),context);
 
       if (auth != null) {
         preferences.setString(ApiSettings.API_TOKEN, auth.token);

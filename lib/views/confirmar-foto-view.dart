@@ -106,10 +106,10 @@ class DragImage extends StatefulWidget {
   DragImage(this.position, this.image);
 
   @override
-  DragImagaState createState() => DragImagaState();
+  DragImageState createState() => DragImageState();
 }
 
-class DragImagaState extends State<DragImage> {
+class DragImageState extends State<DragImage> {
   double _zoom;
   double _previousZoom;
   Offset _startingFocalPoint;

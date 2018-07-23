@@ -40,6 +40,10 @@ class PreAdmissaoAppViewModel {
   String horaFimPosicao;
   String horaIntervaloPosicao;
   String cargo;
+  String statusFichaRegistro;
+  String statusFichaRegistroVerso;
+  String statusFormularioVT;
+  String statusSolicitacaoUniforme;
 
   PreAdmissaoAppViewModel(
       {this.idPreAdmissaoApp,
@@ -80,7 +84,11 @@ class PreAdmissaoAppViewModel {
       this.horaInicioPosicao,
       this.horaFimPosicao,
       this.horaIntervaloPosicao,
-      this.cargo});
+      this.cargo,
+      this.statusFormularioVT,
+      this.statusSolicitacaoUniforme,
+      this.statusFichaRegistro,
+      this.statusFichaRegistroVerso});
 
   factory PreAdmissaoAppViewModel.fromJson(Map<String, dynamic> json) {
     return new PreAdmissaoAppViewModel(
@@ -126,6 +134,10 @@ class PreAdmissaoAppViewModel {
       horaFimPosicao: json['horaFimPosicao'],
       horaIntervaloPosicao: json['horaIntervaloPosicao'],
       cargo: json['cargo'],
+      statusFichaRegistro: json['StatusFichaRegistro'],
+      statusFichaRegistroVerso: json['StatusFichaRegistroVerso'],
+      statusFormularioVT: json['StatusFormularioVT'],
+      statusSolicitacaoUniforme: json['StatusSolicitacaoUniforme'],
     );
   }
 }

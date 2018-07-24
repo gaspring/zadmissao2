@@ -28,17 +28,11 @@ class LoginService {
       var response = await http
           .post(url, headers: headers, body: json.encode(vm.toMap()))
           .timeout(new Duration(seconds: 10), onTimeout: () {
-        print("timeout");
-      });
-      if (response != null) {
-        var responseJson = json.decode(response.body);
-
-        return new TokenViewModel.fromJson(responseJson);
-      }else{
-        _dialog = new DialogUtils(context);
-        _dialog.closeApp("Falha na conexão", "A internet parece instável. Por favor, tente novamente mais tarde.", "fechar");
         return null;
-      }
+      });
+      var responseJson = json.decode(response.body);
+
+      return new TokenViewModel.fromJson(responseJson);
     } catch (e) {
       return null;
     }

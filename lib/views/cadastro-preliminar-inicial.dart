@@ -69,7 +69,7 @@ class _CadastroPreliminarInicialState
     return new Container(
         padding: const EdgeInsets.all(4.0),
         child: new RaisedButton(
-          color: Colors.amber,
+          color: new Color.fromRGBO(43, 186, 180, 1.0),
           onPressed: _onButtonAvancarPress,
           child: new Text(
             "Avançar",

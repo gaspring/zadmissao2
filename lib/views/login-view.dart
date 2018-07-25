@@ -59,7 +59,7 @@ class _LoginViewState extends State<LoginView> {
       child: RaisedButton(
         child: new Text("Entrar", style: new TextStyle(color: Colors.white)),
         onPressed: _buttonLoginClick,
-        color: Colors.amber,
+        color: new Color.fromRGBO(43, 186, 180, 1.0),
       ),
     );
   }

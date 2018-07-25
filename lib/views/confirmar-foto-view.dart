@@ -48,7 +48,7 @@ class _ConfirmarFotoState extends State<ConfirmarFotoView> {
             child: new Container(
                 width: 370.0,
                 child: new RaisedButton(
-                  color: Colors.amber,
+                  color: new Color.fromRGBO(43, 186, 180, 1.0),
                   onPressed: _onPress,
                   child: new Text("Confirmar"),
                 )),

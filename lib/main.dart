@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Bem vindo Gestor',
       theme: new ThemeData(
-        primarySwatch: Colors.amber,
+        primaryColor: new Color.fromRGBO(43, 186, 180, 1.0),
       ),
       home: new SplashScreenView(),
       routes: <String, WidgetBuilder>{

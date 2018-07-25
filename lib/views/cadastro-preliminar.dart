@@ -173,7 +173,7 @@ class _CadastroPreliminarState extends State<CadastroPreliminarView> {
                         new Expanded(
                             child: new RaisedButton(
                                 child: new Text("Limpar"),
-                                color: Colors.amber,
+                                color: new Color.fromRGBO(43, 186, 180, 1.0),
                                 onPressed: () {
                                   setState(() {
                                     _vagasFiltro = _vagas;
@@ -183,7 +183,7 @@ class _CadastroPreliminarState extends State<CadastroPreliminarView> {
                         new Expanded(
                             child: new RaisedButton(
                                 child: new Text("Pesquisar"),
-                                color: Colors.amber,
+                                color: new Color.fromRGBO(43, 186, 180, 1.0),
                                 onPressed: () {
                                   var codigoVaga =
                                       textEditingControllerVaga.text;

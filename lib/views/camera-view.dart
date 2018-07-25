@@ -61,14 +61,14 @@ class _CameraViewState extends State<CameraView> {
                         child: new Text("Foto",
                             style: const TextStyle(
                                 color: Colors.white, fontSize: 22.0)),
-                        color: Colors.amber,
+                        color: new Color.fromRGBO(43, 186, 180, 1.0),
                         onPressed: _takePicture,
                       ),
                       new RaisedButton(
                         child: new Text("Galeria de imagens",
                             style: const TextStyle(
                                 color: Colors.white, fontSize: 22.0)),
-                        color: Colors.amber,
+                        color: new Color.fromRGBO(43, 186, 180, 1.0),
                         onPressed: _openGallery,
                       ),
                     ],

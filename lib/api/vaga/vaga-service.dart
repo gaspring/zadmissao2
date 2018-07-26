@@ -65,7 +65,7 @@ class VagaService {
     }
   }
 
-  Future<List<VagaViewModel>> listarPreAdmissaoHistorico() async {
+  Future<List<PreAdmissaoAppViewModel>> listarPreAdmissaoHistorico() async {
     try {
       var preferences = await SharedPreferences.getInstance();
       var idUsuario = preferences.get(ApiSettings.ID_USER);
@@ -78,7 +78,7 @@ class VagaService {
       var response = await http.get(url, headers: _header);
       var responseJson = json.decode(response.body);
 
-      var l = (responseJson as List).map((x) => new VagaViewModel.fromJson(x));
+      var l = (responseJson as List).map((x) => new PreAdmissaoAppViewModel.fromJson(x));
 
       return l.toList();
     } catch (e) {

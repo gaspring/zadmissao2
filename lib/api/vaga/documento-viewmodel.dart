@@ -5,6 +5,7 @@ class DocumentoViewModel {
   String key;
   String idPreAdmissaoApp;
   bool temVerso;
+  bool ePosProcesso;
 
   Icon icon;
   Icon iconVerse;
@@ -16,9 +17,9 @@ class DocumentoViewModel {
       this.key: "",
       this.idPreAdmissaoApp: "",
       this.temVerso: false,
+      this.ePosProcesso: false,
       this.icon: const Icon(Icons.camera_alt),
       this.iconVerse: const Icon(Icons.camera_alt),
-
       this.dependenteOuAdmissao: "A"});
 
   factory DocumentoViewModel.fromJson(Map<String, dynamic> json) {

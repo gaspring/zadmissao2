@@ -12,9 +12,10 @@ class CriarPreAdmissaoView extends StatefulWidget {
   final VagaViewModel vagaViewModel;
   final PreAdmissaoAppViewModel preAdmissaoAppViewModel;
   bool isNew;
+  bool ePosProceso;
 
   CriarPreAdmissaoView(
-      {this.vagaViewModel, this.preAdmissaoAppViewModel, this.isNew});
+      {this.vagaViewModel, this.preAdmissaoAppViewModel, this.isNew, this.ePosProceso: false});
 
   @override
   State<StatefulWidget> createState() => new _CriarPreAdmissaoState();
@@ -32,6 +33,12 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
     _documentos.add(new DocumentoViewModel(
         nome: "Dependentes", key: "DEPENDENTES", icon: new Icon(Icons.group)));
     _documentos.add(new DocumentoViewModel(
+        nome: "Solicitação de emprego",
+        key: "SOLICITACAOEMPREGO",
+        temVerso: true,
+        icon: _chooseIcons(widget.preAdmissaoAppViewModel.statusSolicitacaoEmprego),
+        iconVerse: _chooseIcons(widget.preAdmissaoAppViewModel.statusSolicitacaoEmprego)));
+    _documentos.add(new DocumentoViewModel(
         nome: "RG",
         key: "RG",
         temVerso: true,
@@ -44,7 +51,6 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
     _documentos.add(new DocumentoViewModel(
         nome: "Comprovante de residência",
         key: "ENDERECO",
-        temVerso: true,
         icon: _chooseIcons(widget.preAdmissaoAppViewModel.statusRG)));
     _documentos.add(new DocumentoViewModel(
         nome: "Título de eleitor",
@@ -102,6 +108,27 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
         key: "VACINA3",
         icon: _chooseIcons(widget.preAdmissaoAppViewModel.statusVacina3)));
     _documentos.add(new DocumentoViewModel(
+        nome: "Ficha de registro",
+        key: "FICHAREGISTRO",
+        ePosProcesso: true,
+        icon: _chooseIcons(widget.preAdmissaoAppViewModel.statusFichaRegistro)));
+    _documentos.add(new DocumentoViewModel(
+        nome: "Solicitação de Vale Transporte",
+        key: "FORMULARIOVT",
+        ePosProcesso: true,
+        icon: _chooseIcons(widget.preAdmissaoAppViewModel.statusFormularioVT)));
+    _documentos.add(new DocumentoViewModel(
+        nome: "CTPS Assinada",
+        key: "CTPSASSINADA",
+        ePosProcesso: true,
+        icon: _chooseIcons(widget.preAdmissaoAppViewModel.statusCTPSAssinada)));
+    _documentos.add(new DocumentoViewModel(
+        nome: "Solicitação de uniforme",
+        key: "SOLICITACAOUNIFORME",
+        ePosProcesso: true,
+        icon: _chooseIcons(
+            widget.preAdmissaoAppViewModel.statusSolicitacaoUniforme)));
+    _documentos.add(new DocumentoViewModel(
         nome: "Certificado de formação de vigilante",
         key: "CERTIFICADOFORMACAOVIG",
         temVerso: true,
@@ -131,22 +158,8 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
         icon: _chooseIcons(widget.preAdmissaoAppViewModel.statusDRTVig),
         iconVerse:
             _chooseIcons(widget.preAdmissaoAppViewModel.statusDRTVigVerso)));
-    _documentos.add(new DocumentoViewModel(
-        nome: "Ficha de registro",
-        key: "FICHAREGISTRO",
-        temVerso: true,
-        icon: _chooseIcons(widget.preAdmissaoAppViewModel.statusFichaRegistro),
-        iconVerse: _chooseIcons(
-            widget.preAdmissaoAppViewModel.statusFichaRegistroVerso)));
-    _documentos.add(new DocumentoViewModel(
-        nome: "Solicitação de Vale Transporte",
-        key: "FORMULARIOVT",
-        icon: _chooseIcons(widget.preAdmissaoAppViewModel.statusFormularioVT)));
-    _documentos.add(new DocumentoViewModel(
-        nome: "Solicitação de uniforme",
-        key: "SOLICITACAOUNIFORME",
-        icon: _chooseIcons(
-            widget.preAdmissaoAppViewModel.statusSolicitacaoUniforme)));
+
+    _documentos = _documentos.where((x) => x.ePosProcesso == widget.ePosProceso).toList();
 
     super.initState();
   }

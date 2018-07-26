@@ -41,9 +41,11 @@ class PreAdmissaoAppViewModel {
   String horaIntervaloPosicao;
   String cargo;
   String statusFichaRegistro;
-  String statusFichaRegistroVerso;
   String statusFormularioVT;
   String statusSolicitacaoUniforme;
+  String statusSolicitacaoEmprego;
+  String statusSolicitacaoEmpregoVerso;
+  String statusCTPSAssinada;
 
   PreAdmissaoAppViewModel(
       {this.idPreAdmissaoApp,
@@ -88,56 +90,59 @@ class PreAdmissaoAppViewModel {
       this.statusFormularioVT,
       this.statusSolicitacaoUniforme,
       this.statusFichaRegistro,
-      this.statusFichaRegistroVerso});
+      this.statusSolicitacaoEmprego,
+      this.statusCTPSAssinada,
+      this.statusSolicitacaoEmpregoVerso});
 
   factory PreAdmissaoAppViewModel.fromJson(Map<String, dynamic> json) {
     return new PreAdmissaoAppViewModel(
-      idPreAdmissaoApp: json['idPreAdmissaoApp'],
-      nome: json['nome'],
-      cpf: json['cpf'],
-      statusEndereco: json['statusEndereco'],
-      statusRG: json['statusRG'],
-      statusDocumentoCPF: json['statusDocumentoCPF'],
-      statusTituloDeEleitor: json['statusTituloDeEleitor'],
-      statusCTPS: json['statusCTPS'],
-      statusPISPASEP: json['statusPISPASEP'],
-      statusReservista: json['statusReservista'],
-      statusCNH: json['statusCNH'],
-      statusRGVerso: json['statusRGVerso'],
-      statusCTPSVerso: json['statusCTPSVerso'],
-      statusContaBancaria: json['statusContaBancaria'],
-      statusContaBancariaVerso: json['statusContaBancariaVerso'],
-      statusCertidaoNascimentoCasamento:
-          json['statusCertidaoNascimentoCasamento'],
-      statusEscolaridade: json['statusEscolaridade'],
-      statusEscolaridadeVerso: json['statusEscolaridadeVerso'],
-      statusVacina: json['statusVacina'],
-      statusVacina2: json['statusVacina2'],
-      statusVacina3: json['statusVacina3'],
-      statusCertificadoFormacaoVig: json['statusCertificadoFormacaoVig'],
-      statusCertificadoFormacaoVigVerso:
-          json['statusCertificadoFormacaoVigVerso'],
-      statusCertificadoReciclagemVig: json['statusCertificadoReciclagemVig'],
-      statusCertificadoReciclagemVigVerso:
-          json['statusCertificadoReciclagemVigVerso'],
-      statusCNVVig: json['statusCNVVig'],
-      statusCNVVigVerso: json['statusCNVVigVerso'],
-      statusDRTVig: json['statusDRTVig'],
-      statusDRTVigVerso: json['statusDRTVigVerso'],
-      status: json['status'],
-      idVaga: json['idVaga'],
-      codigoVaga: json['codigoVaga'],
-      centroCusto: json['centroCusto'],
-      numeroPosicao: json['numeroPosicao'],
-      escalaPosicao: json['escalaPosicao'],
-      horaInicioPosicao: json['horaInicioPosicao'],
-      horaFimPosicao: json['horaFimPosicao'],
-      horaIntervaloPosicao: json['horaIntervaloPosicao'],
-      cargo: json['cargo'],
-      statusFichaRegistro: json['StatusFichaRegistro'],
-      statusFichaRegistroVerso: json['StatusFichaRegistroVerso'],
-      statusFormularioVT: json['StatusFormularioVT'],
-      statusSolicitacaoUniforme: json['StatusSolicitacaoUniforme'],
-    );
+        idPreAdmissaoApp: json['idPreAdmissaoApp'],
+        nome: json['nome'],
+        cpf: json['cpf'],
+        statusEndereco: json['statusEndereco'],
+        statusRG: json['statusRG'],
+        statusDocumentoCPF: json['statusDocumentoCPF'],
+        statusTituloDeEleitor: json['statusTituloDeEleitor'],
+        statusCTPS: json['statusCTPS'],
+        statusPISPASEP: json['statusPISPASEP'],
+        statusReservista: json['statusReservista'],
+        statusCNH: json['statusCNH'],
+        statusRGVerso: json['statusRGVerso'],
+        statusCTPSVerso: json['statusCTPSVerso'],
+        statusContaBancaria: json['statusContaBancaria'],
+        statusContaBancariaVerso: json['statusContaBancariaVerso'],
+        statusCertidaoNascimentoCasamento:
+            json['statusCertidaoNascimentoCasamento'],
+        statusEscolaridade: json['statusEscolaridade'],
+        statusEscolaridadeVerso: json['statusEscolaridadeVerso'],
+        statusVacina: json['statusVacina'],
+        statusVacina2: json['statusVacina2'],
+        statusVacina3: json['statusVacina3'],
+        statusCertificadoFormacaoVig: json['statusCertificadoFormacaoVig'],
+        statusCertificadoFormacaoVigVerso:
+            json['statusCertificadoFormacaoVigVerso'],
+        statusCertificadoReciclagemVig: json['statusCertificadoReciclagemVig'],
+        statusCertificadoReciclagemVigVerso:
+            json['statusCertificadoReciclagemVigVerso'],
+        statusCNVVig: json['statusCNVVig'],
+        statusCNVVigVerso: json['statusCNVVigVerso'],
+        statusDRTVig: json['statusDRTVig'],
+        statusDRTVigVerso: json['statusDRTVigVerso'],
+        status: json['status'],
+        idVaga: json['idVaga'],
+        codigoVaga: json['codigoVaga'],
+        centroCusto: json['centroCusto'],
+        numeroPosicao: json['numeroPosicao'],
+        escalaPosicao: json['escalaPosicao'],
+        horaInicioPosicao: json['horaInicioPosicao'],
+        horaFimPosicao: json['horaFimPosicao'],
+        horaIntervaloPosicao: json['horaIntervaloPosicao'],
+        cargo: json['cargo'],
+        statusFichaRegistro: json['statusFichaRegistro'],
+        statusFormularioVT: json['statusFormularioVT'],
+        statusSolicitacaoUniforme: json['statusSolicitacaoUniforme'],
+        statusSolicitacaoEmprego: json['statusSolicitacaoEmprego'],
+        statusCTPSAssinada: json['statusCTPSAssinada'],
+        statusSolicitacaoEmpregoVerso: json['statusSolicitacaoEmpregoVerso']);
   }
 }

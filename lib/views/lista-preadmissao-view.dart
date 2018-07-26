@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:zadmissao/api/vaga/pre-admissao-app-viewmodel.dart';
 import 'package:zadmissao/api/vaga/vaga-service.dart';
 import 'package:zadmissao/api/vaga/vaga-viewmodel.dart';
 import 'package:zadmissao/utils/dialog-utils.dart';
+import 'package:zadmissao/views/criar-preadmissao-view.dart';
 
 class ListaPreAdmissaoView extends StatefulWidget {
   @override
@@ -9,7 +11,7 @@ class ListaPreAdmissaoView extends StatefulWidget {
 }
 
 class _ListaPreAdmissaoState extends State<ListaPreAdmissaoView> {
-  List<VagaViewModel> _lista;
+  List<PreAdmissaoAppViewModel> _lista;
 
   VagaService _vagaService;
 
@@ -17,7 +19,7 @@ class _ListaPreAdmissaoState extends State<ListaPreAdmissaoView> {
 
   @override
   void initState() {
-    _lista = new List<VagaViewModel>();
+    _lista = new List<PreAdmissaoAppViewModel>();
     _vagaService = VagaService();
     _dialog = new DialogUtils(context);
 
@@ -39,36 +41,60 @@ class _ListaPreAdmissaoState extends State<ListaPreAdmissaoView> {
               child: new Container(
                 padding: const EdgeInsets.all(8.0),
                 child: new ListTile(
+                  onTap: () {
+                    var v = new VagaViewModel(
+                        cargo: p.cargo,
+                        centroCusto: p.centroCusto,
+                        codigoVaga: p.codigoVaga,
+                        escalaPosicao: p.escalaPosicao,
+                        horaFimPosicao: p.horaFimPosicao,
+                        horaInicioPosicao: p.horaInicioPosicao,
+                        horaIntervaloPosicao: p.horaIntervaloPosicao,
+                        idPreAdmissao: p.idPreAdmissaoApp,
+                        idVaga: p.idVaga,
+                        numeroPosicao: p.numeroPosicao,
+                        cpf: p.cpf);
+
+                    _transit(new CriarPreAdmissaoView(
+                        vagaViewModel: v, preAdmissaoAppViewModel: p, ePosProceso: true,));
+                  },
                   title: new Row(
                     children: <Widget>[
                       new Expanded(
                           child: new Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          new Container(
-                            child: new Text(
-                              "${p.codigoVaga}",
-                              style:
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              new Container(
+                                child: new Text(
+                                  "${p.nome}",
+                                  style:
                                   const TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          new Container(
-                            child: new Text("${p.cargo}"),
-                          ),
-                          new Container(
-                            child: new Text("${p.centroCusto}"),
-                          ),
-                          new Container(
-                            padding: const EdgeInsets.all(2.0),
-                            child: new Text("(${p
+                                ),
+                              ),
+                              new Container(
+                                child: new Text(
+                                  "${p.codigoVaga}",
+                                  style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              new Container(
+                                child: new Text("${p.cargo}"),
+                              ),
+                              new Container(
+                                child: new Text("${p.centroCusto}"),
+                              ),
+                              new Container(
+                                padding: const EdgeInsets.all(2.0),
+                                child: new Text("(${p
                                     .numeroPosicao}) ${p
                                     .escalaPosicao}, ${p
                                     .horaInicioPosicao} - ${p
                                     .horaFimPosicao} (${p
                                     .horaIntervaloPosicao})"),
-                          ),
-                        ],
-                      ))
+                              ),
+                            ],
+                          ))
                     ],
                   ),
                 ),
@@ -90,5 +116,12 @@ class _ListaPreAdmissaoState extends State<ListaPreAdmissaoView> {
     } else {
       _dialog.showAlertDialog("Ops...", "Tente novamente", "Ok", "");
     }
+  }
+
+  void _transit(Widget widget) {
+    Navigator.push(
+      context,
+      new MaterialPageRoute(builder: (context) => widget),
+    );
   }
 }

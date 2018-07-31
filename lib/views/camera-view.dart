@@ -21,14 +21,14 @@ class CameraView extends StatefulWidget {
 }
 
 class _CameraViewState extends State<CameraView> {
-  DocumentoViewModel doc;
-  String verse;
+  DocumentoViewModel _doc;
+  String _verse;
 
   @override
   void initState() {
     super.initState();
-    doc = widget.documento;
-    verse = widget.verso;
+    _doc = widget.documento;
+    _verse = widget.verso;
   }
 
   @override
@@ -39,7 +39,7 @@ class _CameraViewState extends State<CameraView> {
     ]);
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text(doc.nome + ' - ' + verse),
+        title: new Text(_doc.nome + ' - ' + _verse),
       ),
       body: new Stack(
         children: <Widget>[
@@ -92,7 +92,7 @@ class _CameraViewState extends State<CameraView> {
       // var resizedPhoto = await compressImage(photo.path);
       // if (resizedPhoto != null)
       _transit(new ConfirmarFotoView(
-          path: photo.path, documento: doc, verso: verse, camera: true));
+          path: photo.path, documento: _doc, verso: _verse, camera: true));
     }
   }
 
@@ -101,8 +101,8 @@ class _CameraViewState extends State<CameraView> {
     if (img != null) {
       // var resized = await compressImage(img.path);
       // if (resized != null)
-      _transit(
-          new ConfirmarFotoView(path: img.path, documento: doc, verso: verse, camera: false));
+      _transit(new ConfirmarFotoView(
+          path: img.path, documento: _doc, verso: _verse, camera: false));
     }
   }
 

@@ -96,6 +96,7 @@ class _DependenteDocumentoState extends State<DependenteDocumentosView> {
     return Container(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           buildIconColumn(doc.icon, 'Frente'),
           buildIconColumn(doc.iconVerse, 'Verso')

@@ -71,6 +71,8 @@ class _ConfirmarFotoState extends State<ConfirmarFotoView> {
 
     widget.documento.key = widget.documento.key.replaceAll("VERSO", "");
 
+    await _image.delete(recursive: false);
+
     _backToPreAdmissaoView();
   }
 
@@ -122,7 +124,6 @@ class DragImageState extends State<DragImage> {
 
   @override
   void initState() {
-    super.initState();
     _zoom = 1.0;
     _previousZoom = null;
     _offset = Offset.zero;
@@ -130,6 +131,7 @@ class DragImageState extends State<DragImage> {
     _doubleTapEnable = true;
     _position = widget.position;
     _image = widget.image;
+    super.initState();
   }
 
   @override

@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
       theme: new ThemeData(
         primaryColor: new Color.fromRGBO(43, 186, 180, 1.0),
       ),
-      home: new SignatureView(),
+      home: new SplashScreenView(),
       routes: <String, WidgetBuilder>{
         MainView.ROUTE: (BuildContext context) => new MainView(),
         LoginView.ROUTE: (BuildContext context) => new LoginView()

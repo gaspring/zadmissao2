@@ -86,7 +86,7 @@ class _CameraViewState extends State<CameraView> {
 
   void _takePicture() async {
     File photo = await ImagePicker.pickImage(
-        source: ImageSource.camera, maxWidth: 2048.0);
+        source: ImageSource.camera, maxHeight: 1024.0);
 
     if (photo != null) {
       // var resizedPhoto = await compressImage(photo.path);

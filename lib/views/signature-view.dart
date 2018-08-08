@@ -33,7 +33,6 @@ class _SignatureState extends State<SignatureView> {
           child: new CustomPaint(
             painter: new Signature(
               points: _points,
-
             ),
             size: Size.infinite,
           ),
@@ -62,7 +61,7 @@ class Signature extends CustomPainter {
     Paint paint = new Paint()
       ..color = Colors.black
       ..strokeCap = StrokeCap.round
-      ..strokeWidth = 1.0;
+      ..strokeWidth = 2.0;
 
     for (int i = 0; i < points.length - 1; i++) {
       if (points[i] != null && points[i + 1] != null) {

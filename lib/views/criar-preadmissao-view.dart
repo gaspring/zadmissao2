@@ -278,6 +278,7 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
     return Container(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           _buildIconColumn(doc.icon, 'Frente'),
           _buildIconColumn(doc.iconVerse, 'Verso')

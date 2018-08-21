@@ -51,7 +51,7 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
     _documentos.add(new DocumentoViewModel(
         nome: "Comprovante de residência",
         key: "ENDERECO",
-        icon: _chooseIcons(widget.preAdmissaoAppViewModel.statusRG)));
+        icon: _chooseIcons(widget.preAdmissaoAppViewModel.statusEndereco)));
     _documentos.add(new DocumentoViewModel(
         nome: "Título de eleitor",
         key: "TITULODEELEITOR",

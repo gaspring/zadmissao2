@@ -3,6 +3,7 @@ import 'package:masked_text/masked_text.dart';
 import 'package:zadmissao/api/vaga/documento-viewmodel.dart';
 import 'package:zadmissao/api/vaga/pre-admissao-app-viewmodel.dart';
 import 'package:zadmissao/api/vaga/vaga-viewmodel.dart';
+import 'package:zadmissao/utils/dialog-utils.dart';
 import 'package:zadmissao/views/dependente-view.dart';
 import 'package:zadmissao/views/camera-view.dart';
 import 'package:zadmissao/views/main-view.dart';
@@ -15,7 +16,10 @@ class CriarPreAdmissaoView extends StatefulWidget {
   bool ePosProceso;
 
   CriarPreAdmissaoView(
-      {this.vagaViewModel, this.preAdmissaoAppViewModel, this.isNew, this.ePosProceso: false});
+      {this.vagaViewModel,
+      this.preAdmissaoAppViewModel,
+      this.isNew,
+      this.ePosProceso: false});
 
   @override
   State<StatefulWidget> createState() => new _CriarPreAdmissaoState();
@@ -25,10 +29,13 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
   List<DocumentoViewModel> _documentos;
   VagaService _vagaService;
 
+  DialogUtils _dialog;
+
   @override
   void initState() {
     _documentos = new List<DocumentoViewModel>();
     _vagaService = new VagaService();
+    _dialog = new DialogUtils(context);
 
     _documentos.add(new DocumentoViewModel(
         nome: "Dependentes", key: "DEPENDENTES", icon: new Icon(Icons.group)));
@@ -36,8 +43,10 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
         nome: "Solicitação de emprego",
         key: "SOLICITACAOEMPREGO",
         temVerso: true,
-        icon: _chooseIcons(widget.preAdmissaoAppViewModel.statusSolicitacaoEmprego),
-        iconVerse: _chooseIcons(widget.preAdmissaoAppViewModel.statusSolicitacaoEmprego)));
+        icon: _chooseIcons(
+            widget.preAdmissaoAppViewModel.statusSolicitacaoEmprego),
+        iconVerse: _chooseIcons(
+            widget.preAdmissaoAppViewModel.statusSolicitacaoEmprego)));
     _documentos.add(new DocumentoViewModel(
         nome: "RG",
         key: "RG",
@@ -111,7 +120,8 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
         nome: "Ficha de registro",
         key: "FICHAREGISTRO",
         ePosProcesso: true,
-        icon: _chooseIcons(widget.preAdmissaoAppViewModel.statusFichaRegistro)));
+        icon:
+            _chooseIcons(widget.preAdmissaoAppViewModel.statusFichaRegistro)));
     _documentos.add(new DocumentoViewModel(
         nome: "Solicitação de Vale Transporte",
         key: "FORMULARIOVT",
@@ -159,7 +169,8 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
         iconVerse:
             _chooseIcons(widget.preAdmissaoAppViewModel.statusDRTVigVerso)));
 
-    _documentos = _documentos.where((x) => x.ePosProcesso == widget.ePosProceso).toList();
+    _documentos =
+        _documentos.where((x) => x.ePosProcesso == widget.ePosProceso).toList();
 
     super.initState();
   }
@@ -372,8 +383,10 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
   }
 
   void _backToAnaliseView() async {
+    _dialog.showProgressDialog();
     var finalizarProcesso = await _vagaService
         .finalizarPreAdmissaoApp(widget.vagaViewModel.idPreAdmissao);
+    _dialog.dismiss();
 
     if (finalizarProcesso == 200) {
       if (widget.isNew != null && widget.isNew) {

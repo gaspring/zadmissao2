@@ -46,6 +46,7 @@ class PreAdmissaoAppViewModel {
   String statusSolicitacaoEmprego;
   String statusSolicitacaoEmpregoVerso;
   String statusCTPSAssinada;
+  String statusAso;
 
   PreAdmissaoAppViewModel(
       {this.idPreAdmissaoApp,
@@ -92,7 +93,8 @@ class PreAdmissaoAppViewModel {
       this.statusFichaRegistro,
       this.statusSolicitacaoEmprego,
       this.statusCTPSAssinada,
-      this.statusSolicitacaoEmpregoVerso});
+      this.statusSolicitacaoEmpregoVerso,
+      this.statusAso});
 
   factory PreAdmissaoAppViewModel.fromJson(Map<String, dynamic> json) {
     return new PreAdmissaoAppViewModel(
@@ -143,6 +145,7 @@ class PreAdmissaoAppViewModel {
         statusSolicitacaoUniforme: json['statusSolicitacaoUniforme'],
         statusSolicitacaoEmprego: json['statusSolicitacaoEmprego'],
         statusCTPSAssinada: json['statusCTPSAssinada'],
-        statusSolicitacaoEmpregoVerso: json['statusSolicitacaoEmpregoVerso']);
+        statusSolicitacaoEmpregoVerso: json['statusSolicitacaoEmpregoVerso'],
+        statusAso: json['statusAso']);
   }
 }

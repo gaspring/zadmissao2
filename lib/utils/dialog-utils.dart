@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
+import 'dart:async';
 
 class DialogUtils {
   BuildContext _context;
@@ -31,25 +32,27 @@ class DialogUtils {
   }
 
   void showProgressDialog() {
-    showDialog(
-        context: _context,
-        barrierDismissible: false,
-        builder: (BuildContext context) => new CupertinoAlertDialog(
-              title: new Text("Carregando"),
-              content: new Container(
-                padding: const EdgeInsets.all(8.0),
-                child: new Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
-                  children: <Widget>[
-                    new CupertinoActivityIndicator(
-                      animating: true,
-                      radius: 20.0,
-                    )
-                  ],
+    Future.delayed(Duration(milliseconds: 10), () {
+      showDialog(
+          context: _context,
+          barrierDismissible: false,
+          builder: (BuildContext context) => new CupertinoAlertDialog(
+                title: new Text("Carregando"),
+                content: new Container(
+                  padding: const EdgeInsets.all(8.0),
+                  child: new Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    children: <Widget>[
+                      new CupertinoActivityIndicator(
+                        animating: true,
+                        radius: 20.0,
+                      )
+                    ],
+                  ),
                 ),
-              ),
-            ));
+              ));
+    });
   }
 
   void closeApp(String title, String message, String buttonTextOk,

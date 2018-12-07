@@ -60,6 +60,7 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
     _documentos.add(new DocumentoViewModel(
         nome: "Comprovante de residência",
         key: "ENDERECO",
+        temVerso: true,
         icon: _chooseIcons(widget.preAdmissaoAppViewModel.statusEndereco)));
     _documentos.add(new DocumentoViewModel(
         nome: "Título de eleitor",
@@ -95,6 +96,7 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
     _documentos.add(new DocumentoViewModel(
         nome: "Certidão de nascimento ou casamento",
         key: "CERTIDAONASCIMENTOCASAMENTO",
+        temVerso: true,
         icon: _chooseIcons(
             widget.preAdmissaoAppViewModel.statusCertidaoNascimentoCasamento)));
     _documentos.add(new DocumentoViewModel(
@@ -168,6 +170,12 @@ class _CriarPreAdmissaoState extends State<CriarPreAdmissaoView> {
         icon: _chooseIcons(widget.preAdmissaoAppViewModel.statusDRTVig),
         iconVerse:
             _chooseIcons(widget.preAdmissaoAppViewModel.statusDRTVigVerso)));
+
+    _documentos.add(new DocumentoViewModel(
+        nome: "Aso",
+        key: "ASO",
+        ePosProcesso: true,
+        icon: _chooseIcons(widget.preAdmissaoAppViewModel.statusAso)));
 
     _documentos =
         _documentos.where((x) => x.ePosProcesso == widget.ePosProceso).toList();

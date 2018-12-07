@@ -72,4 +72,4 @@ dependencies {
     //implementation 'com.google.firebase:firebase-core:15.0.2'
 }
 
-//apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.gms.google-services'

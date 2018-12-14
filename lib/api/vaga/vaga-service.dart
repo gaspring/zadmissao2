@@ -128,6 +128,7 @@ class VagaService {
     } catch (e) {
       return null;
     }
+
   }
 
   Future<List<PreAdmissaoAppDependenteViewModel>>

@@ -25,6 +25,7 @@ class _MainViewState extends State<MainView> {
   Widget _criarPreAdmissao;
   Widget _listarPreAdmissao;
   Widget _emAnalise;
+  List<Widget> _acoes;
 
   Widget _body;
   int _selectedTab;
@@ -36,6 +37,9 @@ class _MainViewState extends State<MainView> {
     _emAnalise = new EmAnaliseView();
     _selectedTab = 0;
     _body = _emAnalise;
+    _acoes = new List();
+
+    _adicionarBotao();
 
     // initFirebase();
 
@@ -64,21 +68,13 @@ class _MainViewState extends State<MainView> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: new AppBar(
-        title: new Text("Bem vindo Gestor"),
-        actions: <Widget>[
-          new IconButton(
-            icon: new Icon(Icons.exit_to_app),
-            onPressed: _logout,
-          )
-        ],
-      ),
+      appBar: new AppBar(title: new Text("Bem vindo Gestor"), actions: _acoes),
       bottomNavigationBar: new BottomNavigationBar(
           onTap: _onTap,
           items: [
             new BottomNavigationBarItem(
                 icon: new Icon(Icons.query_builder),
-                title: new Text("Em análise")),
+                title: new Text("Em Análise")),
             new BottomNavigationBarItem(
                 icon: new Icon(Icons.add), title: new Text("Admitir")),
             new BottomNavigationBarItem(
@@ -97,17 +93,95 @@ class _MainViewState extends State<MainView> {
         body = _criarPreAdmissao;
         break;
       case _HISTORICO_PREADMISSAO:
+        _listarPreAdmissao = new ListaPreAdmissaoView();
         body = _listarPreAdmissao;
         break;
       case _EM_ANALISE:
+        _emAnalise = new EmAnaliseView();
         body = _emAnalise;
         break;
     }
+
+    _acoesBotoes(position);
 
     setState(() {
       _body = body;
       _selectedTab = position;
     });
+  }
+
+  void _acoesBotoes(int index) {
+    switch (index) {
+      case _CRIAR_PREADMISSAO:
+        if (_acoes.length == 2) _acoes.removeAt(0);
+
+        break;
+      case _HISTORICO_PREADMISSAO:
+        if (_acoes.length == 2) {
+          _acoes.removeAt(0);
+          _acoes.insert(
+            0,
+            new IconButton(
+              icon: new Icon(Icons.search),
+              onPressed: () {
+                (_listarPreAdmissao as ListaPreAdmissaoView).openBusca();
+              },
+            ),
+          );
+        } else if (_acoes.length < 2) {
+          _acoes.insert(
+            0,
+            new IconButton(
+              icon: new Icon(Icons.search),
+              onPressed: () {
+                (_listarPreAdmissao as ListaPreAdmissaoView).openBusca();
+              },
+            ),
+          );
+        }
+
+        break;
+      case _EM_ANALISE:
+        if (_acoes.length == 2) {
+          _acoes.removeAt(0);
+          _acoes.insert(
+            0,
+            new IconButton(
+              icon: new Icon(Icons.search),
+              onPressed: () {
+                (_emAnalise as EmAnaliseView).openBusca();
+              },
+            ),
+          );
+        } else if (_acoes.length < 2) {
+          _acoes.insert(
+            0,
+            new IconButton(
+              icon: new Icon(Icons.search),
+              onPressed: () {
+                (_emAnalise as EmAnaliseView).openBusca();
+              },
+            ),
+          );
+        }
+
+        break;
+    }
+  }
+
+  void _adicionarBotao() {
+    _acoes.addAll([
+      new IconButton(
+        icon: new Icon(Icons.search),
+        onPressed: () {
+          (_emAnalise as EmAnaliseView).openBusca();
+        },
+      ),
+      new IconButton(
+        icon: new Icon(Icons.exit_to_app),
+        onPressed: _logout,
+      ),
+    ]);
   }
 
   void _logout() async {
